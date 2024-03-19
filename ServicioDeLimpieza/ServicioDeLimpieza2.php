@@ -21,7 +21,7 @@
 
 		<?php
 		$current_date = date("Y-m-d");
-                $sql = "SELECT * FROM wp_postmeta WHERE meta_key IN ('mphb_check_in_date', 'mphb_check_out_date') ORDER BY  post_id";
+		$sql = "SELECT * FROM wp_postmeta WHERE meta_key IN ('mphb_check_in_date', 'mphb_check_out_date') ORDER BY  post_id";
                 $result = mysqli_query($conexion,$sql);
 		$diccionario = array();
 
@@ -38,9 +38,9 @@
 		            $current_date = time();
 
 		            if ($current_date >= $check_in && $current_date <= $check_out) {
-		                $estado = 'V';
+		                $estado = 'Ocupado';
 		            } else {
-		                $estado = 'R';
+		                $estado = 'Libre';
 		            }
 		        }
 		        ?>
