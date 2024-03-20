@@ -358,3 +358,25 @@ audio {
   padding: 10px;
   background-image: url(multimedia/imagenes/neon/2021-09-15_01.00.57.png);
 }
+
+
+/* -- Parte del display de imagenes -- */
+
+#image-track {
+  display: flex;
+  gap: 4vmin;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(0%, -50%); 
+  user-select: none; 
+}
+
+#image-track > .image {
+  width: 40vmin;
+  height: 56vmin;
+  object-fit: cover;
+  object-position: 100% center;
+}
+
+/* -- Parte del display de imagenes -- */
