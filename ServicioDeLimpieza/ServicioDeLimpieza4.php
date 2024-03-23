@@ -7,13 +7,15 @@
 <head>
 	<title>Servicio de limpieza</title>
 <style>
-  .green-dot {
+   .green-dot {
     height: 20px;
     width: 20px;
     background-color: green;
     border-radius: 50%;
+    font-weight:bold;
     margin: 0 auto;
-  }
+   }
+
   .red-dot {
    height: 20px;
    width: 20px;
@@ -31,6 +33,9 @@
   .puntos th, .puntos td {
     padding: 20px;
     text-align: center;
+  }
+  body{
+   background-color:#f7e6b2;
   }
 </style>
 
@@ -74,7 +79,7 @@ if (mysqli_connect_errno()) {
 
                 while ($respuestaPeticionHabitacion = mysqli_fetch_array($conexionPeticionHabitacion)) {
                     $post_id = $respuestaPeticionHabitacion['post_id'];
-		    echo $respuestaPeticionHabitacion;
+
                     $comandoFechas = "SELECT meta_value FROM wp_postmeta WHERE post_id = $post_id AND (meta_key = 'mphb_check_in_date' OR meta_key = 'mphb_check_out_date');";
                     $conexionFechas = mysqli_query($conexion, $comandoFechas);
 
@@ -85,9 +90,9 @@ if (mysqli_connect_errno()) {
 
 		$fechaActual = date('Y-m-d');
                 if ($post_id && $fechaActual >= $fechas[0] && $fechaActual <= $fechas[1]) {
-                    echo '<td><div class="red-dot"></div></td>';
+			echo '<td><div class="red-dot"></div>' . $numeroHabitacion . '</td>';
                 } else {
-                    echo '<td><div class="green-dot"></div></td>';
+                    echo '<td><div class="green-dot"></div>' . $numeroHabitacion . '</td>';
                 }
             }
             ?>

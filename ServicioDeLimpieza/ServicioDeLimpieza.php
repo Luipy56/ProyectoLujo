@@ -49,14 +49,49 @@
                        <td><?php echo $mostrar['post_id'] ?></td>
                        <td><?php echo $mostrar['meta_key'] ?></td>
                        <td><?php echo $mostrar['meta_value'] ?></td>
-               </tr>
+		</tr>
 	<?php 
 	}
 	 ?>
 
 	</table>
 <br>
+	<?php
+	$numeroHabitacion = "100";
+	$comandoPeticionHabitacion = "SELECT post_id FROM wp_postmeta WHERE meta_key = '_mphb_booking_price_breakdown' AND meta_value LIKE '%$numeroHabitacion%';";
+	$conexionPeticionHabitacion = mysqli_query($conexion,$comandoPeticionHabitacion);
+	while($respuestaPeticionHabitacion = mysqli_fetch_array($conexionPeticionHabitacion)){
+	?>
+	<div>
+	<p>Id de la habitación <?php echo $numeroHabitacion?>: <?php echo $respuestaPeticionHabitacion['post_id'] ?></p>
 
+	<?php
+	$post_id = $respuestaPeticionHabitacion['post_id'];
+	$comandoFechas = "SELECT meta_value FROM wp_postmeta WHERE post_id = $post_id AND (meta_key = 'mphb_check_in_date' OR meta_key = 'mphb_check_out_date');";
+	$conexionFechas = mysqli_query($conexion, $comandoFechas);
+
+	$fechas = array();
+	while ($filaFecha = mysqli_fetch_array($conexionFechas)) {
+    		$fechas[] = $filaFecha['meta_value'];}
+	?>
+	Check-in: <?php echo $fechas[0]; ?><br>
+        Check-out: <?php echo $fechas[1]; ?><br>
+	<?php
+	$fechaActual=date('Y-m-d');
+	//$fechaActual=strtotime('2024-03-25');
+	if ($fechaActual >= $fechas[0] && $fechaActual <= $fechas[1]) {
+        echo "<strong>La fecha actual está dentro del rango de reserva.</strong>";
+    	} else {
+        echo "<strong>La fecha actual está fuera del rango de reserva.</strong>";
+    	}
+	echo $fechaActual
+
+	?>
+	</div>
+	<?php
+        }
+         ?>
+<br>
 <table class="puntos">
   <tr>
     <th colspan="24">Primer Piso</th>
