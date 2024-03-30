@@ -7,20 +7,6 @@ h1 {
 h2 {
     font-size: 25px;
   }
-.titulo0 {
-    background-image: url("multimedia2/stockInfo.jpg");
-    background-size:100%;
-    text-align: center;
-    color: white;
-    padding: 300px;
-    text-align: center;
-}
-.titulo0 h1{
-  font-size: 100px;
-}
-.titulo0 h2{
-  font-size: 40px;
-}
 .titulo1 {
     background-image: url("multimedia/imagenes/otras/fondos/1.png");
     text-align: center;
@@ -57,25 +43,8 @@ h2 {
     padding:10px;
     /*Cómo lo engancho para que siga a la página mientras hago scroll*/
   }
-.div1{
-    color:rgb(98, 98, 98);
-    padding:20px;
-    text-align: center;
-    font-size: 15px;
-    font-family:'Courier New', Courier, monospace;
-    font-style: italic;
-    background-color: white
-  }
-.div2{
-  background-color:rgb(240, 240, 240);
-  text-align: center;
-  font-family:'Courier New', Courier, monospace;
-  font-size: 15px;
-  font-style: italic;
-  color:rgb(98, 98, 98);
-  padding: 100px;
-  }
-.subtitulo a{
+
+.sub a{
     color:white;
     text-decoration: none;
     background-color: rgb(255, 0, 0);
@@ -89,38 +58,6 @@ h2 {
   }
 .t1{
     align-items:flex-end;
-  }
-
- #menu00 {
-    background-color: #000000;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    float:left;
- }
-#menu01 {
-    background-color: #000000;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    float:right;
-    padding-right: 10px;
-  }
-#menu00 img {
-    height: 60px;
-    width: 60px;
-    margin-right: 10px;
-  }
-#menu01 a {
-    text-decoration: none;
-    margin-right: 20px;
-    font-weight: bold;
-    color: #ffffff;
-  }
-#menu01 a:hover {
-    color: #1a73e8;
   }
 
 #tik{
@@ -368,8 +305,8 @@ audio {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(0%, -50%); 
-  user-select: none; 
+  transform: translate(0%, -50%);
+  user-select: none;
 }
 
 #image-track > .image {
@@ -380,3 +317,372 @@ audio {
 }
 
 /* -- Parte del display de imagenes -- */
+/* -- NUEVO -- */
+/* -- EL PTO MENÚ PRINCIPAL -- */
+a {
+  font-size: 1;
+  text-decoration: none;
+}
+fieldset, img {
+  border: 0;
+}
+@media only screen and (max-width: 910px) {
+  .container {
+    width: 800px;
+    margin: 0 auto;
+    position: relative;
+  }
+}
+.logo {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  z-index: 1232323;
+  height: 20px;
+  width: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+.printablelogo {
+  display: none;
+}
+.container {
+  width: 910px;
+  margin: 0 auto;
+  position: relative;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#generalCont {
+  width: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  background-color: black;
+}
+#wrapper {
+  position: relative;
+  width: 100%;
+  float: left;
+}
+#content {
+  position: relative;
+  float: left;
+  width: 100%;
+  background: #FFF;
+  padding-bottom: 5em;
+}
+#header-wrapper {
+  position: relative;
+  float: left;
+  width: 100%;
+}
+header {
+  position: relative;
+  float: left;
+  width: 100%;
+  height: 8.4em;
+  background: #000000;
+}
+#footer-wrapper {
+  position: relative;
+  float: left;
+  width: 100%;
+}
+header .container, #footer-wrapper .container {
+  width: 910px;
+}
+header .container, #footer-wrapper .container {
+  width: 910px;
+}
+#footer-wrapper .container .col3 {
+  float: right;
+}
+.icon-menu {
+  display: none;
+}
+
+/* -- EL PTO MENÚ PRINCIPAL -- */
+
+/* -- NUEVO Título -- */
+.titulo0 {
+  background-image: url("multimedia/stockInfo2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  text-align: center;
+  
+  color: #00ff00;
+  text-shadow: 0.3em 0.3em 0px #000;
+  text-shadow: 0.3vw 0.3vw 0px #000;
+  
+  padding-top: 250px;
+  padding-bottom: 200px;
+
+  text-align: center;
+  letter-spacing: 2px;
+  font-family: Impact, Charcoal, sans-serif;
+}
+.titulo0 h1{
+   font-size: 5em;
+   font-size: 5vw;
+   
+}
+.titulo0 h2{
+  font-size: 3em;
+  font-size: 3vw;
+}
+/* -- NUEVO Título -- */
+
+
+/* -- NUEVO Div Gradiente -- */
+
+.gradiente{
+  background-color: #00ff00;
+  box-shadow: 0 30px 30px -1px rgba(0, 0, 0, 0.3) inset;
+  color: #000000;
+  float: left;
+  height: 30em;
+  height: 30vw;
+  width: 100%;
+}
+.gradiente h2{
+  font-family:Impact, Charcoal, sans-serif;
+  font-size: 2.7em;
+  font-size: 2.7vw;
+  font-style: italic;
+  padding: 2em;
+  text-align: center;
+}
+.gradiente h3{
+  text-align: center;
+  font-family:'Times New Roman', Courier, monospace;
+  padding-right: 7em;
+  padding-left: 7em;
+  font-size: 1.7em;
+  font-size: 1.7vw;
+}
+/* -- Div Gradiente -- */
+
+/* -- NUEVO Div Oscuro -- */
+
+.oscuro {
+  background-color: #000000;
+  color: #00ff00;
+  float: left;
+  height: 30em;
+  height: 30vw;
+  width: 100%;
+}
+
+.oscuro h2 {
+  font-family: Impact, Charcoal, sans-serif;
+  font-size: 2.7em;
+  font-size: 2.7vw;
+  font-style: italic;
+  padding: 2em;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.oscuro .tablaOscura {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.oscuro .filaOscura {
+  display: flex;
+  padding: 1em;
+}
+.oscuro .iconoOscuro {
+  margin-left: 4em;
+  margin-right: 4em;
+  text-align: center;
+  font-size: 2.1em;
+  font-size: 2.1vw;
+}
+.oscuro .iconoOscuro img {
+  width: 10em;
+  width: 10vw; /* Ajusta el tamaño de la imagen al contenedor */
+  height: auto; /* Mantiene la proporción de aspecto */
+}
+.oscuro .tituloOscuro{
+  text-align: center;
+  font-family: Impact, Charcoal, sans-serif;
+  font-size: 1.7em;
+  font-size: 1.7vw;
+  margin-left: 6em;
+  margin-right: 6em;
+}
+.oscuro .descripcionOscuro {
+  text-align: center;
+  font-family: Impact, Charcoal, sans-serif;
+  font-size: 1.7em;
+  font-size: 1.7vw;
+  width: 15em;
+  margin-left: 4.6em;
+  margin-right: 4.6em;
+}
+.oscuro .descripcionOscuro {
+  font-family: 'Times New Roman', Courier, monospace;
+  font-size: 1.1em;
+  font-size: 1.1vw;
+}
+/* -- Div Oscuro -- */
+
+/* -- NUEVO Div Contacto Simple -- */
+.contactoSimple {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  color: #00ff00;
+  height: 7em;
+  height: 7vw;
+}
+.contactoSimple h1{
+  padding: 2em;
+  font-size: 0.9em;
+  font-size: 0.9vw;
+  padding-right: 40em;
+  padding-left: 40em;
+}
+.contactoSimple a{
+  color: #00ffff;
+  text-decoration: none;
+}
+/* -- NUEVO Div Contacto Simple -- */
+
+
+/* -- EL PTISIMO NAV -- */
+/* -- EL PTISIMO NAV -- */
+nav {
+  position: absolute;
+  top: inherit;
+  left: 0px;
+  right: inherit;
+  bottom: 16px;
+  width: 100%;
+  padding: 20px 0;
+  background: transparent;
+  z-index: 1000;
+}
+nav ul {
+  position: relative;
+  text-align: center;
+}
+nav ul li {
+  display: inline-block;
+  position: relative;
+}
+nav ul li.current > span, nav ul li.current a {
+  color: #00ff00;
+  background: url("./multimedia/pin.png") no-repeat center 100%;
+  font-family: Impact, Charcoal, sans-serif;
+}
+nav ul li:hover > span {
+  cursor: default;
+  color: #00ff00;
+  background: url("./multimedia/pin.png") no-repeat center 100%;
+}
+nav ul li:hover > ul {
+  display: block !important;
+}
+nav ul li a, nav ul li span {
+  color: #e3e3e3;
+  background: none;
+  padding: 39px 20px;
+  font-family: Impact, Charcoal, sans-serif;
+  font-weight: normal;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+nav ul li a:hover, nav ul li a.active, nav ul li span:hover, nav ul li span.active {
+  text-decoration: none;
+  color: #00ff00;
+  background: url("./multimedia/pin.png") no-repeat center 100%;
+  font-family: Impact, Charcoal, sans-serif;
+}
+nav ul li ul {
+  position: absolute;
+  width: 275px;
+  text-align: left;
+  background: #FFF;
+  padding: 20px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+  top: 39px;
+  left: 0;
+}
+nav ul li ul li {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+nav ul li ul li:hover > ul {
+  display: block !important;
+}
+nav ul li ul li.current a {
+  background: #FFF;
+  text-decoration: none;
+  color: #00ff00;
+}
+nav ul li ul li a, nav ul li ul li span {
+  color: #232323;
+  padding: 0;
+  font-family: Impact, Charcoal, sans-serif;
+  font-weight: normal;
+  cursor: pointer;
+  font-size: 1em;
+  background: none !important;
+  text-transform: uppercase;
+}
+nav ul li ul li a:hover, nav ul li ul li span:hover {
+  text-decoration: none;
+  color: #444;
+}
+nav ul li ul li span {
+  cursor: default !important;
+}
+nav ul li ul li ul {
+  display: block !important;
+  position: relative;
+  text-align: left;
+  background: #FFF;
+  padding: 5px 0 5px 15px;
+  box-shadow: none;
+  width: inherit;
+  top: 0;
+}
+nav ul li ul li ul li {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+nav ul li ul li ul li.current a {
+  background: #FFF;
+  text-decoration: none;
+  color: #00ff00;
+}
+nav ul li ul li ul li a, nav ul li ul li ul li span {
+  color: #e3e3e3;
+  padding: 0;
+  font-family: Impact, Charcoal, sans-serif;
+  font-weight: normal;
+  cursor: pointer;
+  font-size: 1em;
+  background: none !important;
+  text-transform: inherit;
+}
+nav ul li ul li ul li a:hover, nav ul li ul li ul li span:hover {
+  text-decoration: none;
+  color: #00ff00;
+}
+nav ul li ul li ul li a span, nav ul li ul li ul li span span {
+  cursor: pointer !important;
+}
+nav ul li ul li ul li span {
+  cursor: default !important;
+}
+/* -- EL PTISIMO NAV -- */
