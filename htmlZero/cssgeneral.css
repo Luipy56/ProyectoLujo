@@ -1,4 +1,7 @@
-/* -- NUEVO -- */
+@font-face {
+  font-family: 'ImpactedY';
+  src: url('fonts/Impacted.ttf') format('truetype');
+}
 /* -- EL PTO MENÚ PRINCIPAL -- */
 a {
   text-decoration: none;
@@ -29,7 +32,7 @@ a {
 header {
   position: relative;
   float: left;
-  height: 6.5vw;
+  height: 4vw;
   background: #000000;
 }
 /* -- EL PTO MENÚ PRINCIPAL -- */
@@ -66,7 +69,7 @@ header {
   width: 100%;
 }
 .gradiente h2{
-  font-family:Impact, Charcoal, sans-serif;
+  font-family:'ImpactedY', Impact, sans-serif;
   font-size: 2.7vw;
   font-style: italic;
   padding: 2em;
@@ -92,7 +95,7 @@ header {
   padding-bottom:4vw;
 }
 .oscuro h2 {
-  font-family: Impact, Charcoal, sans-serif;
+  font-family: 'ImpactedY', Impact, sans-serif;
   font-size: 2.7vw;
   font-style: italic;
   padding-bottom: 2.5vw;
@@ -120,7 +123,7 @@ header {
 }
 .oscuro .tituloOscuro{
   text-align: center;
-  font-family: Impact, Charcoal, sans-serif;
+  font-family: 'ImpactedY', Impact, sans-serif;
   font-size: 1.7vw;
   margin-left: 5.3em;
   margin-right: 5.3em;
@@ -142,7 +145,7 @@ header {
   width: 100%;
 }
 .oscuro2 h2 {
-  font-family: Impact, Charcoal, sans-serif;
+  font-family: 'ImpactedY', Impact, sans-serif;
   font-size: 2.7vw;
   font-style: italic;
   padding: 2em;
@@ -171,7 +174,7 @@ header {
 }
 .oscuro2 .tituloOscuro2{
   text-align: center;
-  font-family: Impact, Charcoal, sans-serif;
+  font-family: 'ImpactedY', Impact, sans-serif;
   font-size: 1.5vw;
   margin-left: 2em;
   margin-right: 2em;
@@ -235,35 +238,54 @@ footer{
   font-size: 0.9vw;
   margin-top: 1vw;
 }
+.subsubfooterDiv a{
+  text-decoration: none;
+  color: #00ff00;
+}
 /* -- NUEVO Footer -- */
 
 
 /* -- EL PTISIMO NAV -- */
+.nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  
+  display: flex;
+  align-items: center;
+  background: #000000;
+  padding: 0.5vw;
+}
 #nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000000;
-  padding: 1.3vw;
+  flex-grow: 1;
+}
+.nav-menu {
+  display: flex;
 }
 .nav-item {
   height: 4.7vw;
   display: inline-block;
 }
-.nav-item-current{
+.nav-item-logo {
   height: 4.7vw;
   display: inline-block;
 }
-
-
+.nav-item-current {
+  height: 4.7vw;
+  display: inline-block;
+}
 .nav-item a {
   display: inline-block;
   color: #e3e3e3;
-  font-family: Impact, Charcoal, sans-serif;
+  font-family: 'ImpactedY', Impact, sans-serif;
   font-weight: normal;
   cursor: pointer;
   font-size: 1.1vw;
-  padding-top:2.7vw;
+  padding-top: 1.5vw;
   padding-bottom: 1.6vw;
   margin-right: 1.5vw;
   position: relative;
@@ -293,21 +315,19 @@ footer{
 .nav-item-current a {
   display: inline-block;
   color: lime;
-  font-family: Impact, Charcoal, sans-serif;
+  font-family: 'ImpactedY', Impact, sans-serif;
   cursor: pointer;
-  padding-top:2.7vw;
+  padding-top: 1.5vw;
   padding-bottom: 1.6vw;
   font-size: 1.1vw;
   margin-right: 1.5vw;
   background: url("./multimedia/pin.png") no-repeat center 100%;
   background-size: 0.48vw;
 }
-
 .nav-item:last-child {
   margin-right: 0;
 }
 .nav-item img {
   display: inline-block;
-  margin-right: 10vw;
 }
 /* -- EL PTISIMO NAV -- */
