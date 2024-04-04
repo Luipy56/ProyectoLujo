@@ -7,14 +7,44 @@
 <head>
 	<title>Servicio de limpieza</title>
 <style>
-  .green-dot {
+  .dot2 {
     height: 20px;
     width: 20px;
-    background-color: green;
     border-radius: 50%;
-    margin: 0 auto;
+    font-weight:bold;
+    margin-bottom:10px;
   }
-
+  .dot {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    font-weight:bold;
+    margin:0 auto;
+  }
+  .green-dot2 {
+    background-color: green;
+   }
+  .red-dot2 {
+   background-color: red;
+  }
+  .blue-dot2 {
+   background-color: blue;
+  }
+  .yellow-dot2 {
+   background-color: yellow;
+  }
+  .black-dot2 {
+   background-color: black;
+  }
+  .left{
+   display: left;
+   padding:100px;
+   justify-content:left;
+  }
+  .left p{
+    margin-left:40px;
+    width: 500px;
+  }
   .puntos table {
     border-collapse: collapse;
     width: 100%;
@@ -26,122 +56,85 @@
     padding: 20px;
     text-align: center;
   }
+  body{
+   background-color:#f7e6b2;
+  }
 </style>
 
 </head>
 <body>
 <br>
-	<table border="1" >
-		<tr>
-                        <td>Meta ID</td>
-                        <td>Nº</td>
-                        <td>Protocolo</td>
-                        <td>Info</td>
-                </tr>
+<?php
+//Especificar número de habitaciones joder no se ve na con el azul oscuro del nano
+$habitaciones = array();
+$num_pisos = 3;
+$num_habitaciones_por_piso = 12;
 
-		<?php
-                $sql = "SELECT * FROM wp_postmeta WHERE meta_key IN ('mphb_check_in_date', 'mphb_check_out_date','_mphb_booking_price_breakdown','mphb_email','mphb_first_name') ORDER BY post_id";
-                $result = mysqli_query($conexion,$sql);
-                while($mostrar = mysqli_fetch_array($result)){
-                 ?>
-		<tr>
-                       <td><?php echo $mostrar['meta_id'] ?></td>
-                       <td><?php echo $mostrar['post_id'] ?></td>
-                       <td><?php echo $mostrar['meta_key'] ?></td>
-                       <td><?php echo $mostrar['meta_value'] ?></td>
-		</tr>
-	<?php 
-	}
-	 ?>
+for ($piso = 1; $piso <= $num_pisos; $piso++) {
+    for ($habitacion = 1; $habitacion <= $num_habitaciones_por_piso; $habitacion++) {
+        $habitaciones[] = str_pad($piso, 1, "0", STR_PAD_LEFT) . str_pad($habitacion, 2, "0", STR_PAD_LEFT);
+    }
+}
 
-	</table>
-<br>
-	<?php
-	$numeroHabitacion = "100";
-	$comandoPeticionHabitacion = "SELECT post_id FROM wp_postmeta WHERE meta_key = '_mphb_booking_price_breakdown' AND meta_value LIKE '%$numeroHabitacion%';";
-	$conexionPeticionHabitacion = mysqli_query($conexion,$comandoPeticionHabitacion);
-	while($respuestaPeticionHabitacion = mysqli_fetch_array($conexionPeticionHabitacion)){
-	?>
-	<div>
-	<p>Id de la habitación <?php echo $numeroHabitacion?>: <?php echo $respuestaPeticionHabitacion['post_id'] ?></p>
+if (mysqli_connect_errno()) {
+    echo "Error al conectar con MySQL: " . mysqli_connect_error();
+    exit();
+}
+?>
 
-	<?php
-	$post_id = $respuestaPeticionHabitacion['post_id'];
-	$comandoFechas = "SELECT meta_value FROM wp_postmeta WHERE post_id = $post_id AND (meta_key = 'mphb_check_in_date' OR meta_key = 'mphb_check_out_date');";
-	$conexionFechas = mysqli_query($conexion, $comandoFechas);
+<div class="puntos">
+    <table>
+        <tr>
+            <?php
+            $counter = 0;
+            foreach ($habitaciones as $numeroHabitacion) {
+                if ($counter % 12 == 0 && $counter != 0) {
+                    echo '</tr></table><br><table><tr>';
+                }
+                $counter++;
+                echo $numeroHabitacion;
+                echo ", ";
 
-	$fechas = array();
-	while ($filaFecha = mysqli_fetch_array($conexionFechas)) {
-    		$fechas[] = $filaFecha['meta_value'];}
-	?>
-	Check-in: <?php echo $fechas[0]; ?><br>
-        Check-out: <?php echo $fechas[1]; ?><br>
-	<?php
-	$fechaActual=date('Y-m-d');
-	//$fechaActual=strtotime('2024-03-25');
-	if ($fechaActual >= $fechas[0] && $fechaActual <= $fechas[1]) {
-        echo "<strong>La fecha actual está dentro del rango de reserva.</strong>";
-    	} else {
-        echo "<strong>La fecha actual está fuera del rango de reserva.</strong>";
-    	}
-	echo $fechaActual
+                $comandoPeticionHabitacion = "SELECT post_id FROM wp_postmeta WHERE meta_key = '_mphb_booking_price_breakdown' AND meta_value LIKE '%$numeroHabitacion %';";
+                $conexionPeticionHabitacion = mysqli_query($conexion, $comandoPeticionHabitacion);
 
-	?>
-	</div>
-	<?php
-        }
-         ?>
-<br>
-<table class="puntos">
-  <tr>
-    <th colspan="24">Primer Piso</th>
-  </tr>
-  <tr>
-    <th colspan="12">Sección Uno</th>
-    <th colspan="12">Sección Dos</th>
-  </tr>
-  <tr>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
+                $post_id = null;
+                $fechas = array();
 
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
+                while ($respuestaPeticionHabitacion = mysqli_fetch_array($conexionPeticionHabitacion)) {
+                    $post_id = $respuestaPeticionHabitacion['post_id'];
 
-  </tr>
-</table>
+                    $comandoFechas = "SELECT meta_value FROM wp_postmeta WHERE post_id = $post_id AND (meta_key = 'mphb_check_in_date' OR meta_key = 'mphb_check_out_date');";
+                    $conexionFechas = mysqli_query($conexion, $comandoFechas);
+
+                    while ($filaFecha = mysqli_fetch_array($conexionFechas)) {
+                        $fechas[] = $filaFecha['meta_value'];
+                    }
+                }
+
+		$fechaActual = date('Y-m-d');
+                if ($post_id && $fechaActual >= $fechas[0] && $fechaActual <= $fechas[1]) {
+			echo '<td><div class="dot red-dot"></div>' . $numeroHabitacion . '</td>';
+                } else {
+                    echo '<td><div class="dot green-dot"></div>' . $numeroHabitacion . '</td>';
+                }
+            }
+            ?>
+        </tr>
+    </table>
+</div>
+<?php
+// Cerrar conexión
+mysqli_close($conexion);
+?>
 
 <br>
-	<table border="1" >
-                <tr>
-                        <td>Meta ID</td>
-                        <td>Nº</td>
-                        <td>Protocolo</td>
-                        <td>Fecha</td>
-                </tr>
-
-                <?php
-                $sql = "SELECT * FROM wp_postmeta ORDER BY post_id";
-                $result = mysqli_query($conexion,$sql);
-                while($mostrar = mysqli_fetch_array($result)){
-                 ?>
-                <tr>
-                       <td><?php echo $mostrar['meta_id'] ?></td>
-                       <td><?php echo $mostrar['post_id'] ?></td>
-                       <td><?php echo $mostrar['meta_key'] ?></td>
-                       <td><?php echo $mostrar['meta_value'] ?></td>
-               </tr>
-        <?php 
-        }
-         ?>
-
-        </table>
+<div class="left">
+  <div class="dot2 red-dot2"><p>No molestar</p></div>
+  <div class="dot2 green-dot2"><p>Habitación vacia</p></div>
+  <div class="dot2 blue-dot2"><p> Pide limpieza antes de la noche</p></div>
+  <div class="dot2 yellow-dot2"><p>¡Ha de limpiarse para mañana!</p></div>
+  <div class="dot2 black-dot2"><p>No sé</p></div>
+</div>
 </body>
 </html>

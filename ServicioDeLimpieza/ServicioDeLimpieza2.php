@@ -14,13 +14,7 @@
     border-radius: 50%;
     margin: 0 auto;
   }
-  .red-dot {
-   height: 20px;
-   width: 20px;
-   background-color: red;
-   border-radius: 50%;
-   margin: 0 auto;
-  }
+
   .puntos table {
     border-collapse: collapse;
     width: 100%;
@@ -53,48 +47,41 @@ if (mysqli_connect_errno()) {
     echo "Error al conectar con MySQL: " . mysqli_connect_error();
     exit();
 }
+
+foreach ($habitaciones as $numeroHabitacion) {
+    $comandoPeticionHabitacion = "SELECT post_id FROM wp_postmeta WHERE meta_key = '_mphb_booking_price_breakdown' AND meta_value LIKE '%$numeroHabitacion %';";
+    $conexionPeticionHabitacion = mysqli_query($conexion, $comandoPeticionHabitacion);
+
+    while ($respuestaPeticionHabitacion = mysqli_fetch_array($conexionPeticionHabitacion)) {
 ?>
+        <div>
+            <p>Id de la habitación <?php echo $numeroHabitacion ?>: <?php echo $respuestaPeticionHabitacion['post_id'] ?></p>
 
-<div class="puntos">
-    <table>
-        <tr>
             <?php
-            $counter = 0;
-            foreach ($habitaciones as $numeroHabitacion) {
-                if ($counter % 12 == 0 && $counter != 0) {
-                    echo '</tr></table><br><table><tr>';
-                }
-                $counter++;
+            $post_id = $respuestaPeticionHabitacion['post_id'];
+            $comandoFechas = "SELECT meta_value FROM wp_postmeta WHERE post_id = $post_id AND (meta_key = 'mphb_check_in_date' OR meta_key = 'mphb_check_out_date');";
+            $conexionFechas = mysqli_query($conexion, $comandoFechas);
 
-                $comandoPeticionHabitacion = "SELECT post_id FROM wp_postmeta WHERE meta_key = '_mphb_booking_price_breakdown' AND meta_value LIKE '%$numeroHabitacion %';";
-                $conexionPeticionHabitacion = mysqli_query($conexion, $comandoPeticionHabitacion);
-
-                $post_id = null;
-                $fechas = array();
-
-                while ($respuestaPeticionHabitacion = mysqli_fetch_array($conexionPeticionHabitacion)) {
-                    $post_id = $respuestaPeticionHabitacion['post_id'];
-		    echo $respuestaPeticionHabitacion;
-                    $comandoFechas = "SELECT meta_value FROM wp_postmeta WHERE post_id = $post_id AND (meta_key = 'mphb_check_in_date' OR meta_key = 'mphb_check_out_date');";
-                    $conexionFechas = mysqli_query($conexion, $comandoFechas);
-
-                    while ($filaFecha = mysqli_fetch_array($conexionFechas)) {
-                        $fechas[] = $filaFecha['meta_value'];
-                    }
-                }
-
-		$fechaActual = date('Y-m-d');
-                if ($post_id && $fechaActual >= $fechas[0] && $fechaActual <= $fechas[1]) {
-                    echo '<td><div class="red-dot"></div></td>';
-                } else {
-                    echo '<td><div class="green-dot"></div></td>';
-                }
+            $fechas = array();
+            while ($filaFecha = mysqli_fetch_array($conexionFechas)) {
+                $fechas[] = $filaFecha['meta_value'];
             }
             ?>
-        </tr>
-    </table>
-</div>
+            Check-in: <?php echo $fechas[0]; ?><br>
+            Check-out: <?php echo $fechas[1]; ?><br>
+            <?php
+            $fechaActual = date('Y-m-d');
+            //$fechaActual=date('2024-03-31');
+            if ($fechaActual >= $fechas[0] && $fechaActual <= $fechas[1]) {
+                echo "<strong>La fecha actual está dentro del rango de reserva.</strong>";
+            } else {
+                echo "<strong>La fecha actual está fuera del rango de reserva.</strong>";
+            }
+            ?>
+        </div>
 <?php
+    }
+}
 // Cerrar conexión
 mysqli_close($conexion);
 ?>
