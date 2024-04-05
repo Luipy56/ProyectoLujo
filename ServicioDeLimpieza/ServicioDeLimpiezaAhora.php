@@ -46,12 +46,15 @@
     width: 500px;
   }
   .puntos table {
-    border-collapse: collapse;
-    width:100%;
-    height:419px;
-  }
+        border-collapse: collapse;
+        width: auto;
+        height:419px;
+        background-image: url('multimedia/planoPaintHabitaciones.png');
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+        font-size:50px;
+   }
   .puntos table, .puntos th, .puntos td {
-    border: 1px solid black;
     width:1870px;
   }
   .puntos th, .puntos td {
@@ -61,16 +64,7 @@
   body{
    background-color:#f7e6b2;
   }
-  .tablaPiso1 {
-    background-image: url('planoPaintHabitaciones.png');
-    background-size: auto 100%;
-    background-repeat: no-repeat;
-    heigth;
-  }
-  .salaRack {
-    width:2000px;
-  }
-
+	
 </style>
 
 </head>
