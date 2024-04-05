@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<style>
+    .dot2 {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        font-weight:bold;
+        margin-bottom:10px;
+    }
+    .dot {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        font-weight:bold;
+        margin:0 auto;
+    }
+    .green-dot {
+        background-color: green;
+        }
+    .red-dot {
+        background-color: red;
+    }
+    .blue-dot {
+        background-color: blue;
+    }
+    .yellow-dot {
+        background-color: yellow;
+    }
+    .black-dot {
+        background-color: black;
+    }
+    .puntos table {
+        border-collapse: collapse;
+        width: auto;
+        height:419px;
+        background-image: url('planoPaintHabitaciones.png');
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+    }
+    .puntos table, .puntos th, .puntos td {
+   
+        width:1885px;
+    }
+    .puntos th, .puntos td {
+        padding: 20px;
+        text-align: center;
+    }
+    body{
+        background-color:#f7e6b2;
+    }
+        .puntos td:nth-child(1),
+        .puntos td:nth-child(6),
+        .puntos td:nth-child(8),
+        .puntos td:nth-child(13) {
+        width: 1780px; /* Puedes ajustar el valor de acuerdo a tus necesidades */
+        }
+    </style>
+    </head>
+    <body>
+        <div class="puntos">
+            <table class="tablaPiso1">
+                <tr>
+                    <td colspan="13"></td>
+                </tr>
+                <tr><!-- Agregado este tr -->
+                    <!-- Celdas-->
+                    <td><div class="dot green-dot"></div></td>
+                    <td><div class="dot red-dot"></div></td>
+                    <td><div class="dot green-dot"></div></td>
+                    <td><div class="dot green-dot"></div></td>
+                    <td><div class="dot green-dot"></div></td>
+                    <td><div class="dot green-dot"></div></td>
+                    <td style="width: 2200px;"></td><!-- Romper por 6-->
+                    <td><div class="dot green-dot"></div></td>
+                    <td><div class="dot green-dot"></div></td>
+                    <td><div class="dot green-dot"></div></td>
+                    <td><div class="dot green-dot"></div></td>
+                    <td><div class="dot green-dot"></div></td>
+                    <td><div class="dot red-dot"></div></td>
+                    <!-- Celdas -->
+                </tr><!-- Agregado este tr -->
+            </table>
+        </div>
+    </body>
+    </html>
