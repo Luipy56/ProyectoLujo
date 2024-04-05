@@ -76,7 +76,7 @@ function fechaMasCercana($fechasF) {
 	echo 'null';
         return null; // Si el array está vacío, retornar null
     } elseif (count($fechasF) == 1) {
-	echo 'solo 1 entrada';
+	echo 'Sólo 1 entrada';
         return $fechasF[0]; // Si solo hay una fecha, retornar esa fecha
     } else {
 	echo 'Más de 1 entrada';
@@ -118,8 +118,8 @@ if (mysqli_connect_errno()) {
 
 <?php
 // Mostrar la tabla de la centena 300 primero
-echo '<div class="puntos"><table class="tablaPiso1"><tr>';
-echo '<tr><td colspan="12">"Hola"</td></tr>';
+echo '<div class="puntos"><table><tr>';
+echo '<tr><td colspan="13">"Tercer Piso"</td></tr>';
 
 $counter = 0;
 foreach ($habitaciones as $numeroHabitacion) {
@@ -127,7 +127,7 @@ foreach ($habitaciones as $numeroHabitacion) {
         if ($counter % 12 == 0 && $counter != 0) {
             echo '</tr></table><br><table class="tablaPiso1><tr>';
         } elseif ($counter % 6 == 0 && $counter !=0) {
-	echo '<td class=salaRack>A</td>';
+	echo '<td style="width: 2200px;"></td>';
 	}
         $counter++;
 	$comandoCheckInsPorHabitacion="SELECT
