@@ -60,7 +60,7 @@
    background-color:#f7e6b2;
   }
   .tablaPiso1{
-    background-image: url('Piso1.png');
+    background-image: url('Piso.png');
     background-size: auto 100%;
     background-repeat: no-repeat;
   }
@@ -70,6 +70,34 @@
 <body>
 <br>
 <?php
+function fechaMasCercana($fechasF) {
+    if (count($fechasF) == 0) {
+	echo 'null';
+        return null; // Si el array está vacío, retornar null
+    } elseif (count($fechasF) == 1) {
+	echo 'solo 1 entrada';
+        return $fechasF[0]; // Si solo hay una fecha, retornar esa fecha
+    } else {
+	echo 'Más de 1 entrada';
+        // Obtener la fecha actual
+        $fechaActual = strtotime(date('Y-m-d'));
+
+        // Ordenar el array de fechas de menor a mayor
+        sort($fechasF);
+
+        // Iterar sobre las fechas y encontrar la primera mayor o igual a la fecha actual
+        foreach ($fechasF as $fecha) {
+            // Convertir la fecha del array a un timestamp
+            $timestampFecha = strtotime($fecha);
+            if ($timestampFecha >= $fechaActual) {
+                return $fecha; // Si la fecha es mayor o igual a la actual, retornarla
+            }
+        }
+
+        // Si no se encontró ninguna fecha mayor o igual a la actual, retornar la última fecha del array
+        return end($fechasF);
+    }
+}
 //Especificar número de habitaciones joder no se ve na con el azul oscuro del nano
 $habitaciones = array();
 $num_pisos = 3;
@@ -100,50 +128,61 @@ foreach ($habitaciones as $numeroHabitacion) {
         }
         $counter++;
 
-        // Nuevo código para obtener el post_id más cercano a la fecha actual
-        $comandoPeticionHabitacion = "SELECT post_id FROM wp_postmeta WHERE meta_key = '_mphb_booking_price_breakdown' AND meta_value LIKE '%$numeroHabitacion %';";
+        $comandoPeticionHabitacion = "SELECT post_id FROM wp_postmeta WHERE meta_key = '_mphb_booking_price_breakdown' AND meta_value LIKE '%301 %';";
         $conexionPeticionHabitacion = mysqli_query($conexion, $comandoPeticionHabitacion);
-
-        $post_id_mas_cercano = null;
-
-        while ($respuestaPeticionHabitacion = mysqli_fetch_array($conexionPeticionHabitacion)) {
-            $post_id = $respuestaPeticionHabitacion['post_id'];
-
+	
+        $post_id = null;
+        $fechas = array();
+	$respuestaPeticionHabitacion = array();
+//Prueba
+	while ($respuestaPeticionHabitacion = mysqli_fetch_array($conexionPeticionHabitacion)) {
+		echo 'Habitacion';
+            $post_id[] = $respuestaPeticionHabitacion['post_id'];
+		print_r($post_id);
             $comandoFechas = "SELECT meta_value FROM wp_postmeta WHERE post_id = $post_id AND (meta_key = 'mphb_check_in_date');";
             $conexionFechas = mysqli_query($conexion, $comandoFechas);
-
-            while ($filaFecha = mysqli_fetch_array($conexionFechas)) {
-                $fecha = $filaFecha['meta_value'];
-                if (strtotime($fecha) !== false) {
-                    $fecha_obj = new DateTime($fecha);
-                    $diferencia_dias = (new DateTime())->diff($fecha_obj)->days;
-                    if ($post_id_mas_cercano === null || $diferencia_dias < $fecha_mas_cercana) {
-                        $post_id_mas_cercano = $post_id;
-                    }
-                }
-            }
-        }
-	echo $post_id_mas_cercano;
-        // Utilizar el post_id más cercano en la comparación de fechas
-        if ($post_id_mas_cercano) {
-            $comandoFechas = "SELECT meta_value FROM wp_postmeta WHERE post_id = $post_id_mas_cercano AND (meta_key = '_mphb_check_in_date' OR meta_key = '_mphb_check_out_date');";
-            $conexionFechas = mysqli_query($conexion, $comandoFechas);
-
-            $fechas = array();
+		echo 'post_id';
+		echo $post_id;
             while ($filaFecha = mysqli_fetch_array($conexionFechas)) {
                 $fechas[] = $filaFecha['meta_value'];
-            }
-	echo $counter;
-            $fechaActual = date('Y-m-d');
-            if ($fechaActual >= $fechas[0] && $fechaActual <= $fechas[1]) {
-                echo '<td><div class="dot red-dot"></div>' . $numeroHabitacion . '</td>';
-            } else {
-                echo '<td><div class="dot green-dot"></div>' . $numeroHabitacion . '</td>';
-            }
+		echo '<br>';
+                print_r($filaFecha);
+                echo '<br>';
+                print_r($respuestaPeticionHabitacion);
+                echo '<br>';
+                print($numeroHabitacion);
+                echo '<br>';
+                print_r($fechas);
+                echo '<br>';
+                echo '<br>';
+
+	    }
+	echo 'Salgo del bucle';
+        echo '<br>';
+        print_r($fechas);;
+        echo '<br>';
+        echo'aaaaa';
+        echo '<br>';
+        echo '<br>';
+
+	$fechaInMasCercana = fechaMasCercana($fechas);
+	echo 'voy a imprimir';
+	echo $fechaInMasCercana;
+	echo '<br>';
+	echo '<br>';
+	}
+	$comandoFechaOutMasCercana= "SELECT meta_value FROM wp_postmeta WHERE post_id = $post_id;";
+//Prueba
+
+		$fechaActual = date('Y-m-d');
+        if ($post_id && $fechaActual >= $fechaInMasCercana && $fechaActual <= $fechas[1]) {
+			echo '<td><div class="dot red-dot"></div>' . $numeroHabitacion . '</td>';
+        } else {
+            echo '<td><div class="dot green-dot"></div>' . $numeroHabitacion . '</td>';
         }
+	
     }
 }
-
 
 echo '</tr></table></div>';
 echo '<div style="    height: 100px;"></div>';
