@@ -47,10 +47,12 @@
   }
   .puntos table {
     border-collapse: collapse;
-    width: 100%;
+    width:100%;
+    height:419px;
   }
   .puntos table, .puntos th, .puntos td {
     border: 1px solid black;
+    width:1870px;
   }
   .puntos th, .puntos td {
     padding: 20px;
@@ -59,11 +61,16 @@
   body{
    background-color:#f7e6b2;
   }
-  .tablaPiso1{
-    background-image: url('Piso.png');
+  .tablaPiso1 {
+    background-image: url('planoPaintHabitaciones.png');
     background-size: auto 100%;
     background-repeat: no-repeat;
+    heigth;
   }
+  .salaRack {
+    width:2000px;
+  }
+
 </style>
 
 </head>
@@ -124,8 +131,10 @@ $counter = 0;
 foreach ($habitaciones as $numeroHabitacion) {
     if (strpos($numeroHabitacion, '3') === 0) { // Filtrar por la centena 300
         if ($counter % 12 == 0 && $counter != 0) {
-            echo '</tr></table><br><table><tr>';
-        }
+            echo '</tr></table><br><table class="tablaPiso1><tr>';
+        } elseif ($counter % 6 == 0 && $counter !=0) {
+	echo '<td class=salaRack>A</td>';
+	}
         $counter++;
 	$comandoCheckInsPorHabitacion="SELECT
 					    meta_value AS check_in_date
@@ -165,11 +174,11 @@ foreach ($habitaciones as $numeroHabitacion) {
            $fechasCheckOuts[] = $fila['check_out_date'];
         }
 
-	print_r($fechasCheckIns);
+	/*print_r($fechasCheckIns);
 	echo '<br>';
 
 	print_r($fechasCheckOuts);
-	echo '<br>';
+	echo '<br>';*/
 
 	$fechaInMasCercana = fechaMasCercana($fechasCheckIns);
 	echo '<br>';
@@ -178,10 +187,10 @@ foreach ($habitaciones as $numeroHabitacion) {
         echo '<br>';
 
 	$fechaOutMasCercana = fechaMasCercana($fechasCheckOuts);
-	echo '<br>';
+	/*echo '<br>';
 
 	echo $fechaOutMasCercana;
-	echo '<br>';
+	echo '<br>';*/
 
 	$fechaActual = date('Y-m-d');
 	echo $fechaActual;
