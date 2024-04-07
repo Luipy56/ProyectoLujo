@@ -26,7 +26,7 @@
     justify-content: center;
   }
   .greenDot {
-    background-color: green;
+    background-color: lime;
    }
   .redDot {
    background-color: red;
@@ -82,7 +82,6 @@
   body{
    background-color:#f7e6b2;
   }
-	
 </style>
 
 </head>
@@ -91,13 +90,10 @@
 <?php
 function fechaMasCercana($fechasF) {
     if (count($fechasF) == 0) {
-	echo 'null';
         return null; // Si el array está vacío, retornar null
     } elseif (count($fechasF) == 1) {
-	echo 'Sólo 1 entrada';
         return $fechasF[0]; // Si solo hay una fecha, retornar esa fecha
     } else {
-	echo 'Más de 1 entrada';
         // Obtener la fecha actual
         $fechaActual = strtotime(date('Y-m-d'));
 
@@ -141,10 +137,11 @@ echo '<div class="tablaPuntos"><div class="colspan">';
 $counter = 0;
 foreach ($habitaciones as $numeroHabitacion) {
     if (strpos($numeroHabitacion, '3') === 0) { // Filtrar por la centena 300
-        if ($counter % 12 == 0 && $counter != 0) {
+        /*if ($counter % 12 == 0 && $counter != 0) {
             echo '</tr></table><br><table class="tablaPiso1><tr>';
-        } elseif ($counter % 6 == 0 && $counter !=0) {
-	echo '<td style="width: 2200px;"></td>';
+        } else*/
+	if ($counter % 6 == 0 && $counter !=0) {
+	echo '<div class="celda"></div>';
 	}
         $counter++;
 	$comandoCheckInsPorHabitacion="SELECT
