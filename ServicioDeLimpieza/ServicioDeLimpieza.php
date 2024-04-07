@@ -88,30 +88,26 @@
 <body>
 <br>
 <?php
-function fechaMasCercana($fechasF) {
-    if (count($fechasF) == 0) {
-        return null; // Si el array está vacío, retornar null
-    } elseif (count($fechasF) == 1) {
-        return $fechasF[0]; // Si solo hay una fecha, retornar esa fecha
-    } else {
-        // Obtener la fecha actual
-        $fechaActual = strtotime(date('Y-m-d'));
-
-        // Ordenar el array de fechas de menor a mayor
-        sort($fechasF);
-
-        // Iterar sobre las fechas y encontrar la primera mayor o igual a la fecha actual
-        foreach ($fechasF as $fecha) {
-            // Convertir la fecha del array a un timestamp
-            $timestampFecha = strtotime($fecha);
-            if ($timestampFecha >= $fechaActual) {
-                return $fecha; // Si la fecha es mayor o igual a la actual, retornarla
-            }
-        }
-
-        // Si no se encontró ninguna fecha mayor o igual a la actual, retornar la última fecha del array
-        return end($fechasF);
+function comprobarCoincidencia($fechasCheckIn, $fechasCheckOut) {
+    //misma longitud
+    if (count($fechasCheckIn) !== count($fechasCheckOut)) {
+        return false;
     }
+
+    $fechaActual = strtotime(date('Y-m-d'));
+
+    //mapear
+    for ($i = 0; $i < count($fechasCheckIn); $i++) {
+        $checkIn = strtotime($fechasCheckIn[$i]);
+        $checkOut = strtotime($fechasCheckOut[$i]);
+
+        //Si concidencias
+        if ($fechaActual >= $checkIn && $fechaActual <= $checkOut) {
+            return true;
+        }
+    }
+    //Si no concidencias
+    return false;
 }
 //Especificar número de habitaciones joder no se ve na con el azul oscuro del nano
 $habitaciones = array();
@@ -170,9 +166,9 @@ foreach ($habitaciones as $numeroHabitacion) {
                                                         WHERE meta_key = '_mphb_booking_price_breakdown'
                                                         AND meta_value LIKE '%$numeroHabitacion%');";
 
-    $conexionCheckOutsPorHabitacion = mysqli_query($conexion, $comandoCheckOutsPorHabitacion);
+    	$conexionCheckOutsPorHabitacion = mysqli_query($conexion, $comandoCheckOutsPorHabitacion);
 
-    $fechasCheckIns = array();
+	$fechasCheckIns = array();
 	while ($fila = mysqli_fetch_assoc($conexionCheckInsPorHabitacion)) {
  	   $fechasCheckIns[] = $fila['check_in_date'];
 	}
@@ -181,13 +177,10 @@ foreach ($habitaciones as $numeroHabitacion) {
            $fechasCheckOuts[] = $fila['check_out_date'];
         }
 
-	$fechaInMasCercana = fechaMasCercana($fechasCheckIns);
+	$coincidenciaEnFechas = comprobarCoincidencia($fechasCheckIns, $fechasCheckOuts);
 
-	$fechaOutMasCercana = fechaMasCercana($fechasCheckOuts);
-
-	$fechaActual = date('Y-m-d');
-        if ($fechaActual >= $fechaInMasCercana && $fechaActual <= $fechaOutMasCercana) {
-                        echo '<div class="celda"><div class="dot redDot"></div><div class="dotText">'. $numeroHabitacion . '</div></div>';
+        if ($coincidenciaEnFechas) {
+            echo '<div class="celda"><div class="dot redDot"></div><div class="dotText">'. $numeroHabitacion . '</div></div>';
         } else {
             echo '<div class="celda"><div class="dot greenDot"></div><div class="dotText">'. $numeroHabitacion . '</div></div>';
         }
