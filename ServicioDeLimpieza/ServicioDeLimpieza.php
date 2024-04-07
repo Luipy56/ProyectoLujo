@@ -17,23 +17,27 @@
   .dot {
     height: 20px;
     width: 20px;
+
     border-radius: 50%;
-    font-weight:bold;
-    margin:0 auto;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .green-dot {
+  .greenDot {
     background-color: green;
    }
-  .red-dot {
+  .redDot {
    background-color: red;
   }
-  .blue-dot {
+  .blueDot {
    background-color: blue;
   }
-  .yellow-dot {
+  .yellowDot {
    background-color: yellow;
   }
-  .black-dot {
+  .blackDot {
    background-color: black;
   }
   .left{
@@ -45,21 +49,35 @@
     margin-left:40px;
     width: 500px;
   }
-  .puntos table {
-        border-collapse: collapse;
-        width: auto;
-        height:419px;
-        background-image: url('multimedia/planoPaintHabitaciones.png');
-        background-size: auto 100%;
-        background-repeat: no-repeat;
-        font-size:50px;
-   }
-  .puntos table, .puntos th, .puntos td {
-    width:1870px;
+  .tablaPuntos{
+    background-image: url('multimedia/planoPaintHabitaciones.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+
+    width: 964px;
+    height: 210px;
+
+    display: flex;
+    align-items: flex-end;
+    margin: 0 auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
   }
-  .puntos th, .puntos td {
-    padding: 20px;
-    text-align: center;
+  .colspan{
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+    height: 90px;
+  }
+  .celda{
+    flex: 0 0 calc((100% / 13) - 2px);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   body{
    background-color:#f7e6b2;
@@ -118,8 +136,7 @@ if (mysqli_connect_errno()) {
 
 <?php
 // Mostrar la tabla de la centena 300 primero
-echo '<div class="puntos"><table><tr>';
-echo '<tr><td colspan="13">Tercer Piso</td></tr>';
+echo '<div class="tablaPuntos"><div class="colspan">';
 
 $counter = 0;
 foreach ($habitaciones as $numeroHabitacion) {
@@ -131,16 +148,16 @@ foreach ($habitaciones as $numeroHabitacion) {
 	}
         $counter++;
 	$comandoCheckInsPorHabitacion="SELECT
-					    meta_value AS check_in_date
-					FROM
-					    wp_postmeta
-					WHERE
-		    				meta_key = 'mphb_check_in_date'
-       						AND post_id IN (
-				        		SELECT post_id
-				        		FROM wp_postmeta
-				        		WHERE meta_key = '_mphb_booking_price_breakdown'
-				        		AND meta_value LIKE '%$numeroHabitacion%');";
+                                            meta_value AS check_in_date
+                                        FROM
+                                            wp_postmeta
+                                        WHERE
+                                                meta_key = 'mphb_check_in_date'
+                                                AND post_id IN (
+                                                    SELECT post_id
+                                                    FROM wp_postmeta
+                                                    WHERE meta_key = '_mphb_booking_price_breakdown'
+                                                    AND meta_value LIKE '%$numeroHabitacion%');";
 
 	$conexionCheckInsPorHabitacion = mysqli_query($conexion, $comandoCheckInsPorHabitacion);
 
@@ -156,89 +173,41 @@ foreach ($habitaciones as $numeroHabitacion) {
                                                         WHERE meta_key = '_mphb_booking_price_breakdown'
                                                         AND meta_value LIKE '%$numeroHabitacion%');";
 
-        $conexionCheckOutsPorHabitacion = mysqli_query($conexion, $comandoCheckOutsPorHabitacion);
+    $conexionCheckOutsPorHabitacion = mysqli_query($conexion, $comandoCheckOutsPorHabitacion);
 
-        $fechasCheckIns = array();
+    $fechasCheckIns = array();
 	while ($fila = mysqli_fetch_assoc($conexionCheckInsPorHabitacion)) {
  	   $fechasCheckIns[] = $fila['check_in_date'];
 	}
-
 	$fechasCheckOuts = array();
 	while ($fila = mysqli_fetch_assoc($conexionCheckOutsPorHabitacion)) {
            $fechasCheckOuts[] = $fila['check_out_date'];
         }
 
-	/*print_r($fechasCheckIns);
-	echo '<br>';
-
-	print_r($fechasCheckOuts);
-	echo '<br>';*/
-
 	$fechaInMasCercana = fechaMasCercana($fechasCheckIns);
-	echo '<br>';
-
-	echo $fechaInMasCercana;
-        echo '<br>';
 
 	$fechaOutMasCercana = fechaMasCercana($fechasCheckOuts);
-	/*echo '<br>';
-
-	echo $fechaOutMasCercana;
-	echo '<br>';*/
 
 	$fechaActual = date('Y-m-d');
-	echo $fechaActual;
         if ($fechaActual >= $fechaInMasCercana && $fechaActual <= $fechaOutMasCercana) {
-                        echo '<td><div class="dot red-dot"></div>' . $numeroHabitacion . '</td>';
+                        echo '<div class="celda"><div class="dot redDot"></div><div class="dotText">'. $numeroHabitacion . '</div></div>';
         } else {
-            echo '<td><div class="dot green-dot"></div>' . $numeroHabitacion . '</td>';
+            echo '<div class="celda"><div class="dot greenDot"></div><div class="dotText">'. $numeroHabitacion . '</div></div>';
         }
 //Prueba
 	while ($respuestaCheckInsPorHabitacion = mysqli_fetch_array($conexionCheckInsPorHabitacion)) {
-		echo 'Fechas';
-		echo '<br>';
-            	print_r($respuestaCheckInsPorHabitacion);
-		echo '<br>';
-		echo 'Print';
-		echo '<br>';
 		print_r($checksInPorHabitacion);
 		$fechaInMasCercanaPorHabitacion = fechaMasCercana($checksInPorHabitacion);
-		echo 'Función';
-		echo '<br>';
-		echo $fechaInMasCercanaPorHabitacion;
             while ($filaFecha = mysqli_fetch_array($conexionFechas)) {
                 $fechas[] = $filaFecha['meta_value'];
-		echo '<br>';
-                print_r($filaFecha);
-                echo '<br>';
-                print_r($respuestaPeticionHabitacion);
-                echo '<br>';
-                print($numeroHabitacion);
-                echo '<br>';
-                print_r($fechas);
-                echo '<br>';
-                echo '<br>';
-
 	    }
-	echo 'Salgo del bucle';
-        echo '<br>';
-        print_r($fechas);;
-        echo '<br>';
-        echo'aaaaa';
-        echo '<br>';
-        echo '<br>';
-
 	$fechaInMasCercana = fechaMasCercana($fechas);
-	echo 'voy a imprimir';
-	echo $fechaInMasCercana;
-	echo '<br>';
-	echo '<br>';
 	}
 //Prueba
     }
 }
+echo '</div></div>';
 
-echo '</tr></table></div>';
 echo '<div style="    height: 100px;"></div>';
 // Mostrar la tabla de la centena 200 luego
 echo '<div class="puntos"><table><tr>';
