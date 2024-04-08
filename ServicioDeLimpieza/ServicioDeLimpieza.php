@@ -172,7 +172,8 @@ if (mysqli_connect_errno()) {
 ?>
 
 <?php
-// Mostrar la tabla de la centena 300 primero
+echo '<h2><a href="https://github.com/Luipy56/ProyectoLujo/tree/main/ServicioDeLimpieza">Enlace al Código en GitHub</a></h2>';
+
 echo '<div class="tablaPuntos"><div class="colspan">';
 
 $counter = 0;
@@ -208,6 +209,7 @@ foreach ($habitaciones as $numeroHabitacion) {
 /*NºTel*/       $numCustomer = consultaEstandar($numeroHabitacion, 'numCustomer', 'mphb_phone', $conexion, $fechasCheckIns[$indiceFechasInOut]);
 /*Nota*/        $notaCustomer = consultaEstandar($numeroHabitacion, 'notaCustomer', 'mphb_note', $conexion, $fechasCheckIns[$indiceFechasInOut]);
 
+	//zona de creación de celdas
 	echo '<div class="celda"><div class="dot ' . ($coincidenciaEnFechas == 1 ? 'redDot' : ($coincidenciaEnFechas == 2 ? 'yellowDot' : 'greenDot')) . '"';
 	if ($coincidenciaEnFechas) {
     	echo ' onclick="mostrarAlerta(\'' . $fechasCheckIns[$indiceFechasInOut] . '\', \'' . $fechasCheckOuts[$indiceFechasInOut] . '\', \'' . $nameCustomer . '\', \'' . $numCustomer . '\', \'' . $mailCustomer . '\', \'' . $notaCustomer . '\')"';}
@@ -218,10 +220,10 @@ mysqli_close($conexion);
 ?>
 <div class="left">
   <div class="dot2 redDot"><p>No molestar</p></div>
-  <div class="dot2 greenDot"><p>Habitación vacia</p></div>
+  <div class="dot2 greenDot"><p>Habitación vacía</p></div>
   <div class="dot2 blueDot"><p> Pide limpieza antes de la noche</p></div>
-  <div class="dot2 yellowDot"><p>¡Ha de limpiarse para mediodía></div>
-  <div class="dot2 blackDot"><p>No sé</p></div>
+  <div class="dot2 yellowDot"><p>¡Ha de limpiarse para mediodía!</p></div>
+  <div class="dot2 blackDot"><p>No sé, quizá hay un cadáver</p></div>
 </div>
 
 <?php foreach ($info_dots as $info_dot): ?>
