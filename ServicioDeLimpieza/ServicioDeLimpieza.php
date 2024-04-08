@@ -6,6 +6,7 @@
 <html>
 <head>
 	<title>Servicio de limpieza</title>
+
 <style>
    .dot2 {
     height: 20px;
@@ -73,7 +74,7 @@
   }
   .celda{
     flex: 0 0 calc((100% / 13) - 2px);
-    
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -102,19 +103,80 @@ function comprobarCoincidencia($fechasCheckIn, $fechasCheckOut) {
         $checkOut = strtotime($fechasCheckOut[$i]);
 
         //Si concidencias
-        if ($fechaActual >= $checkIn && $fechaActual <= $checkOut) {
-            return true;
+	if ($fechaActual == $checkIn) {
+            return 2;
+	}
+        elseif ($fechaActual >= $checkIn && $fechaActual <= $checkOut) {
+            return 1;
         }
     }
     //Si no concidencias
     return false;
 }
+function fechasInOut($fechasCheckIn, $fechasCheckOut) {
+    //misma longitud
+    if (count($fechasCheckIn) !== count($fechasCheckOut)) {
+        return false;
+    }
+
+    $fechaActual = strtotime(date('Y-m-d'));
+
+    //mapear
+    for ($i = 0; $i < count($fechasCheckIn); $i++) {
+        $checkIn = strtotime($fechasCheckIn[$i]);
+        $checkOut = strtotime($fechasCheckOut[$i]);
+
+        //Si concidencias
+        if ($fechaActual >= $checkIn && $fechaActual <= $checkOut) {
+            return $i;
+	}
+    }
+    //Si no concidencias
+    return false;
+}
+function consultaEstandarFechas($numHab, $alias, $meta_keyF, $conexion){
+	$query = "SELECT meta_value AS $alias
+        	      FROM wp_postmeta
+              	WHERE meta_key = '$meta_keyF'
+              	AND post_id IN (
+                	  SELECT post_id
+                  	FROM wp_postmeta
+                  	WHERE meta_key = '_mphb_booking_price_breakdown'
+                  	AND meta_value LIKE '%$numHab %'
+              	)";
+
+	$result = mysqli_query($conexion, $query);
+	return $result;
+}
+function consultaEstandar($numHab, $alias, $meta_keyF, $conexion, $beacon){
+	$query = "SELECT meta_value AS $alias
+          FROM wp_postmeta
+          WHERE meta_key = '$meta_keyF'
+          AND post_id IN (
+              SELECT post_id
+              FROM wp_postmeta
+              WHERE meta_key = '_mphb_booking_price_breakdown'
+              AND meta_value LIKE '%$numHab %'
+          )
+          AND post_id IN (
+              SELECT post_id
+              FROM wp_postmeta
+              WHERE meta_key = 'mphb_check_in_date'
+              AND meta_value = '$beacon'
+          )";
+
+	$result = mysqli_query($conexion, $query);
+	$array = mysqli_fetch_row($result);
+	$XCustomer = $array[0];
+	return $XCustomer;
+}
+
 //Especificar número de habitaciones joder no se ve na con el azul oscuro del nano
 $habitaciones = array();
 $num_pisos = 3;
 $num_habitaciones_por_piso = 12;
 
-for ($piso = 1; $piso <= $num_pisos; $piso++) {
+for ($piso = $num_pisos; $piso >= 1; $piso--) {
     for ($habitacion = 1; $habitacion <= $num_habitaciones_por_piso; $habitacion++) {
         $habitaciones[] = str_pad($piso, 1, "0", STR_PAD_LEFT) . str_pad($habitacion, 2, "0", STR_PAD_LEFT);
     }
@@ -132,41 +194,20 @@ echo '<div class="tablaPuntos"><div class="colspan">';
 
 $counter = 0;
 foreach ($habitaciones as $numeroHabitacion) {
-    if (strpos($numeroHabitacion, '3') === 0) { // Filtrar por la centena 300
-        /*if ($counter % 12 == 0 && $counter != 0) {
-            echo '</tr></table><br><table class="tablaPiso1><tr>';
-        } else*/
-	if ($counter % 6 == 0 && $counter !=0) {
+    if ($counter % 12 == 0 && $counter != 0) {
+	echo '</div>';
+	echo '</div></div>';
+	echo '<div class="tablaPuntos"><div class="colspan">';
+	}
+
+	if ($counter % 6 == 0 && $counter != 0 && $counter % 12 != 0) {
 	echo '<div class="celda"></div>';
 	}
+
         $counter++;
-	$comandoCheckInsPorHabitacion="SELECT
-                                            meta_value AS check_in_date
-                                        FROM
-                                            wp_postmeta
-                                        WHERE
-                                                meta_key = 'mphb_check_in_date'
-                                                AND post_id IN (
-                                                    SELECT post_id
-                                                    FROM wp_postmeta
-                                                    WHERE meta_key = '_mphb_booking_price_breakdown'
-                                                    AND meta_value LIKE '%$numeroHabitacion%');";
 
-	$conexionCheckInsPorHabitacion = mysqli_query($conexion, $comandoCheckInsPorHabitacion);
-
-	$comandoCheckOutsPorHabitacion="SELECT
-                                            meta_value AS check_out_date
-                                        FROM
-                                            wp_postmeta
-                                        WHERE
-                                                meta_key = 'mphb_check_out_date'
-                                                AND post_id IN (
-                                                        SELECT post_id
-                                                        FROM wp_postmeta
-                                                        WHERE meta_key = '_mphb_booking_price_breakdown'
-                                                        AND meta_value LIKE '%$numeroHabitacion%');";
-
-    	$conexionCheckOutsPorHabitacion = mysqli_query($conexion, $comandoCheckOutsPorHabitacion);
+/*FechaIn*/	$conexionCheckInsPorHabitacion = consultaEstandarFechas($numeroHabitacion, 'check_in_date', 'mphb_check_in_date', $conexion);
+/*FechaOut*/	$conexionCheckOutsPorHabitacion = consultaEstandarFechas($numeroHabitacion, 'check_out_date', 'mphb_check_out_date', $conexion);
 
 	$fechasCheckIns = array();
 	while ($fila = mysqli_fetch_assoc($conexionCheckInsPorHabitacion)) {
@@ -176,142 +217,42 @@ foreach ($habitaciones as $numeroHabitacion) {
 	while ($fila = mysqli_fetch_assoc($conexionCheckOutsPorHabitacion)) {
            $fechasCheckOuts[] = $fila['check_out_date'];
         }
+	$coincidenciaEnFechas = comprobarCoincidencia($fechasCheckIns, $fechasCheckOuts);
+        $indiceFechasInOut= fechasInOut($fechasCheckIns, $fechasCheckOuts);
+
+/*Nombre*/      $nameCustomer = consultaEstandar($numeroHabitacion, 'nameCustomer', 'mphb_first_name', $conexion, $fechasCheckIns[$indiceFechasInOut]);
+/*Mail*/        $mailCustomer = consultaEstandar($numeroHabitacion, 'mailCustomer', 'mphb_email', $conexion, $fechasCheckIns[$indiceFechasInOut]);
+/*NºTel*/       $numCustomer = consultaEstandar($numeroHabitacion, 'numCustomer', 'mphb_phone', $conexion, $fechasCheckIns[$indiceFechasInOut]);
+/*Nota*/        $notaCustomer = consultaEstandar($numeroHabitacion, 'notaCustomer', 'mphb_note', $conexion, $fechasCheckIns[$indiceFechasInOut]);
 
 	$coincidenciaEnFechas = comprobarCoincidencia($fechasCheckIns, $fechasCheckOuts);
-
-        if ($coincidenciaEnFechas) {
-            echo '<div class="celda"><div class="dot redDot"></div><div class="dotText">'. $numeroHabitacion . '</div></div>';
-        } else {
-            echo '<div class="celda"><div class="dot greenDot"></div><div class="dotText">'. $numeroHabitacion . '</div></div>';
-        }
-//Prueba
-	while ($respuestaCheckInsPorHabitacion = mysqli_fetch_array($conexionCheckInsPorHabitacion)) {
-		print_r($checksInPorHabitacion);
-		$fechaInMasCercanaPorHabitacion = fechaMasCercana($checksInPorHabitacion);
-            while ($filaFecha = mysqli_fetch_array($conexionFechas)) {
-                $fechas[] = $filaFecha['meta_value'];
-	    }
-	$fechaInMasCercana = fechaMasCercana($fechas);
-	}
-//Prueba
-    }
+	$indiceFechasInOut= fechasInOut($fechasCheckIns, $fechasCheckOuts);
+	echo '<div class="celda"><div class="dot ' . ($coincidenciaEnFechas == 1 ? 'redDot' : ($coincidenciaEnFechas == 2 ? 'yellowDot' : 'greenDot')) . '"';
+	if ($coincidenciaEnFechas) {
+    	echo ' onclick="mostrarAlerta(\'' . $fechasCheckIns[$indiceFechasInOut] . '\', \'' . $fechasCheckOuts[$indiceFechasInOut] . '\', \'' . $nameCustomer . '\', \'' . $numCustomer . '\', \'' . $mailCustomer . '\', \'' . $notaCustomer . '\')"';}
+	echo '></div><div class="dotText">' . $numeroHabitacion . '</div></div>';
 }
 echo '</div></div>';
-
-echo '<div style="    height: 100px;"></div>';
-// Mostrar la tabla de la centena 200 luego
-echo '<div class="puntos"><table><tr>';
-
-$counter = 0;
-foreach ($habitaciones as $numeroHabitacion) {
-    if (strpos($numeroHabitacion, '2') === 0) { // Filtrar por la centena 200
-        if ($counter % 12 == 0 && $counter != 0) {
-            echo '</tr></table><br><table><tr>';
-        }
-        $counter++;
-
-        $comandoPeticionHabitacion = "SELECT post_id FROM wp_postmeta WHERE meta_key = '_mphb_booking_price_breakdown' AND meta_value LIKE '%$numeroHabitacion %';";
-        $conexionPeticionHabitacion = mysqli_query($conexion, $comandoPeticionHabitacion);
-
-        $post_id = null;
-        $fechas = array();
-
-        while ($respuestaPeticionHabitacion = mysqli_fetch_array($conexionPeticionHabitacion)) {
-            $post_id = $respuestaPeticionHabitacion['post_id'];
-
-            $comandoFechas = "SELECT meta_value FROM wp_postmeta WHERE post_id = $post_id AND (meta_key = 'mphb_check_in_date' OR meta_key = 'mphb_check_out_date');";
-            $conexionFechas = mysqli_query($conexion, $comandoFechas);
-
-            while ($filaFecha = mysqli_fetch_array($conexionFechas)) {
-                $fechas[] = $filaFecha['meta_value'];
-            }
-        }
-
-		$fechaActual = date('Y-m-d');
-        if ($post_id && $fechaActual >= $fechas[0] && $fechaActual <= $fechas[1]) {
-			echo '<td><div class="dot red-dot"></div>' . $numeroHabitacion . '</td>';
-        } else {
-            echo '<td><div class="dot green-dot"></div>' . $numeroHabitacion . '</td>';
-        }
-    }
-}
-
-echo '</tr></table></div>';
-echo '<div style="    height: 100px;"></div>';
-// Mostrar la tabla de la centena 100 por último
-echo '<div class="puntos"><table><tr>';
-
-$counter = 0;
-foreach ($habitaciones as $numeroHabitacion) {
-    if (strpos($numeroHabitacion, '1') === 0) { // Filtrar por la centena 100
-        if ($counter % 12 == 0 && $counter != 0) {
-            echo '</tr></table><br><table><tr>';
-        }
-        $counter++;
-
-        $comandoPeticionHabitacion = "SELECT post_id FROM wp_postmeta WHERE meta_key = '_mphb_booking_price_breakdown' AND meta_value LIKE '%$numeroHabitacion %';";
-        $conexionPeticionHabitacion = mysqli_query($conexion, $comandoPeticionHabitacion);
-
-        $post_id = null;
-        $fechas = array();
-
-        while ($respuestaPeticionHabitacion = mysqli_fetch_array($conexionPeticionHabitacion)) {
-            $post_id = $respuestaPeticionHabitacion['post_id'];
-
-            $comandoFechas = "SELECT meta_value FROM wp_postmeta WHERE post_id = $post_id AND (meta_key = 'mphb_check_in_date' OR meta_key = 'mphb_check_out_date');";
-            $conexionFechas = mysqli_query($conexion, $comandoFechas);
-
-            while ($filaFecha = mysqli_fetch_array($conexionFechas)) {
-                $fechas[] = $filaFecha['meta_value'];
-            }
-        }
-
-		$fechaActual = date('Y-m-d');
-        if ($post_id && $fechaActual >= $fechas[0] && $fechaActual <= $fechas[1]) {
-			echo '<td><div class="dot red-dot"></div>' . $numeroHabitacion . '</td>';
-        } else {
-            echo '<td><div class="dot green-dot"></div>' . $numeroHabitacion . '</td>';
-        }
-    }
-}
-
-echo '</tr></table></div>';
-
-// Cerrar conexión
 mysqli_close($conexion);
 ?>
 <div class="left">
-  <div class="dot2 red-dot"><p>No molestar</p></div>
-  <div class="dot2 green-dot"><p>Habitación vacia</p></div>
-  <div class="dot2 blue-dot"><p> Pide limpieza antes de la noche</p></div>
-  <div class="dot2 yellow-dot"><p>¡Ha de limpiarse para mañana!</p></div>
-  <div class="dot2 black-dot"><p>No sé</p></div>
+  <div class="dot2 redDot"><p>No molestar</p></div>
+  <div class="dot2 greenDot"><p>Habitación vacia</p></div>
+  <div class="dot2 blueDot"><p> Pide limpieza antes de la noche</p></div>
+  <div class="dot2 yellowDot"><p>¡Ha de limpiarse para mañana!</p></div>
+  <div class="dot2 blackDot"><p>No sé</p></div>
 </div>
-<br>
-<table class="puntos">
-  <tr>
-    <th colspan="24">Primer Piso</th>
-  </tr>
-  <tr>
-    <th colspan="12">Sección Uno</th>
-    <th colspan="12">Sección Dos</th>
-  </tr>
-  <tr>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
 
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-    <td colspan="2"><div class="green-dot"></div></td>
-
-  </tr>
-</table>
+<?php foreach ($info_dots as $info_dot): ?>
+        <div class="dot" data-color="<?php echo $info_dot['color']; ?>"></div>
+    <?php endforeach; ?>
+<script>
+function mostrarAlerta(In, Out, Name, Num, Mail, Nota) {
+    if (In !== '' || Out !== '') {
+        alert("Fecha de entrada: " + In + "\nFecha de salida: " + Out + "\nNombre del cliente: " + Name + "\nContacto del cliente: " + Num + "\nMail: " + Mail + "\nNota: " + Nota)
+    }
+}
+</script>
+</script>
 </body>
 </html>
