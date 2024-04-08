@@ -3,10 +3,9 @@
 	$conexion=mysqli_connect($db_host,$db_user,$db_password,$db_name);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<title>Servicio de limpieza</title>
-
 <style>
    .dot2 {
     height: 20px;
@@ -84,12 +83,11 @@
    background-color:#f7e6b2;
   }
 </style>
-
 </head>
 <body>
 <br>
 <?php
-function comprobarCoincidencia($fechasCheckIn, $fechasCheckOut) {
+function comprobarCoincidencia($fechasCheckIn, $fechasCheckOut, $Mod) {
     //misma longitud
     if (count($fechasCheckIn) !== count($fechasCheckOut)) {
         return false;
@@ -102,33 +100,18 @@ function comprobarCoincidencia($fechasCheckIn, $fechasCheckOut) {
         $checkIn = strtotime($fechasCheckIn[$i]);
         $checkOut = strtotime($fechasCheckOut[$i]);
 
-        //Si concidencias
-	if ($fechaActual == $checkIn) {
-            return 2;
-	}
-        elseif ($fechaActual >= $checkIn && $fechaActual <= $checkOut) {
-            return 1;
-        }
-    }
-    //Si no concidencias
-    return false;
-}
-function fechasInOut($fechasCheckIn, $fechasCheckOut) {
-    //misma longitud
-    if (count($fechasCheckIn) !== count($fechasCheckOut)) {
-        return false;
-    }
-
-    $fechaActual = strtotime(date('Y-m-d'));
-
-    //mapear
-    for ($i = 0; $i < count($fechasCheckIn); $i++) {
-        $checkIn = strtotime($fechasCheckIn[$i]);
-        $checkOut = strtotime($fechasCheckOut[$i]);
-
-        //Si concidencias
-        if ($fechaActual >= $checkIn && $fechaActual <= $checkOut) {
-            return $i;
+	if ($Mod == '0'){/*Se consulta si hay coincidencia*/
+	        //Si concidencias
+	        if ($fechaActual == $checkIn) {
+	            return 2;
+	        }
+	        elseif ($fechaActual >= $checkIn && $fechaActual <= $checkOut) {
+	        	return 1;
+	        }
+	} elseif ($Mod == '1'){/*Se consulta el indice en el array*/
+		if ($fechaActual >= $checkIn && $fechaActual <= $checkOut) {
+            		return $i;
+        	}
 	}
     }
     //Si no concidencias
@@ -217,16 +200,14 @@ foreach ($habitaciones as $numeroHabitacion) {
 	while ($fila = mysqli_fetch_assoc($conexionCheckOutsPorHabitacion)) {
            $fechasCheckOuts[] = $fila['check_out_date'];
         }
-	$coincidenciaEnFechas = comprobarCoincidencia($fechasCheckIns, $fechasCheckOuts);
-        $indiceFechasInOut= fechasInOut($fechasCheckIns, $fechasCheckOuts);
+	$coincidenciaEnFechas = comprobarCoincidencia($fechasCheckIns, $fechasCheckOuts, '0');
+        $indiceFechasInOut= comprobarCoincidencia($fechasCheckIns, $fechasCheckOuts, '1');
 
 /*Nombre*/      $nameCustomer = consultaEstandar($numeroHabitacion, 'nameCustomer', 'mphb_first_name', $conexion, $fechasCheckIns[$indiceFechasInOut]);
 /*Mail*/        $mailCustomer = consultaEstandar($numeroHabitacion, 'mailCustomer', 'mphb_email', $conexion, $fechasCheckIns[$indiceFechasInOut]);
 /*NºTel*/       $numCustomer = consultaEstandar($numeroHabitacion, 'numCustomer', 'mphb_phone', $conexion, $fechasCheckIns[$indiceFechasInOut]);
 /*Nota*/        $notaCustomer = consultaEstandar($numeroHabitacion, 'notaCustomer', 'mphb_note', $conexion, $fechasCheckIns[$indiceFechasInOut]);
 
-	$coincidenciaEnFechas = comprobarCoincidencia($fechasCheckIns, $fechasCheckOuts);
-	$indiceFechasInOut= fechasInOut($fechasCheckIns, $fechasCheckOuts);
 	echo '<div class="celda"><div class="dot ' . ($coincidenciaEnFechas == 1 ? 'redDot' : ($coincidenciaEnFechas == 2 ? 'yellowDot' : 'greenDot')) . '"';
 	if ($coincidenciaEnFechas) {
     	echo ' onclick="mostrarAlerta(\'' . $fechasCheckIns[$indiceFechasInOut] . '\', \'' . $fechasCheckOuts[$indiceFechasInOut] . '\', \'' . $nameCustomer . '\', \'' . $numCustomer . '\', \'' . $mailCustomer . '\', \'' . $notaCustomer . '\')"';}
@@ -239,7 +220,7 @@ mysqli_close($conexion);
   <div class="dot2 redDot"><p>No molestar</p></div>
   <div class="dot2 greenDot"><p>Habitación vacia</p></div>
   <div class="dot2 blueDot"><p> Pide limpieza antes de la noche</p></div>
-  <div class="dot2 yellowDot"><p>¡Ha de limpiarse para mañana!</p></div>
+  <div class="dot2 yellowDot"><p>¡Ha de limpiarse para mediodía></div>
   <div class="dot2 blackDot"><p>No sé</p></div>
 </div>
 
