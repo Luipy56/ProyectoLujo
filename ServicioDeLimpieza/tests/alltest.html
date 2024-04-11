@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Información a PHP</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+		<!--var DNB = 0;-->
+		$('#send0').click(function () {
+	            var numHab = $('#numHabInput').val();
+		    var DNB = 0;
+	            $.ajax({
+	                url: 'DNBstate.php',
+
+	                method: 'POST',
+	                data: { numHab: numHab , DNB: DNB },
+	                success: function (response) {
+	                    console.log(response);
+	                    $('#datoProcesado0').text(response);
+	                },
+	                error: function (xhr, status, error) {
+	                    console.error(xhr.responseText);
+	                }
+	            });
+	        });
+
+		$('#send1').click(function () {
+                    var numHab = $('#numHabInput').val();
+		    var DNB = 1;
+                    $.ajax({
+                        url: 'DNBstate.php',
+
+                        method: 'POST',
+                        data: { numHab: numHab , DNB: DNB },
+                        success: function (response) {
+                            console.log(response);
+                            $('#datoProcesado0').text(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                });
+
+
+            $('#sendN').click(function () {
+                var room = $('#roomInput').val();
+		var dateCheckIn = $('#dateCheckInInput').val();
+
+		if (room.trim() === '') {
+                	room = 'AGAPITO';
+            	}
+
+                $.ajax({
+                    url: 'findId.php',
+                    method: 'POST',
+                    data: { room: room, dateCheckIn: dateCheckIn },
+                    success: function (response) {
+                        console.log(response);
+                        $('#datoProcesado1').text(response);
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+	<input type="text" id="numHabInput" placeholder="Nº de habitación"><br><br>
+	<br>
+	<br>
+        <button id="send0">Molestar</button>
+	<button id="send1">No molestar</button>
+
+        <p id="datoProcesado">Esperando información</p>
+
+<!--	<input type="text" id="roomInput" placeholder="Nº de habitacion"><br><br>
+	<input type="text" id="dateCheckInInput" placeholder="Su check In: 'aaaa-mm-dd'"><br><br>
+	<button id="sendN">Enviar</button>
+
+	<p id="datoProcesadoN">Esperando información</p> -->
+    
+</body>
+
+</html>
