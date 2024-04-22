@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="loginForm" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="button" value="Logearte" onclick="submitForm()">
+    </form>
+    <div id="errorMessage" style="color: red;"></div>
+
+
+<script>
+    function submitForm() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        // Envía los datos mediante AJAX
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "processLogin.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.responseText === "success") {
+                    // Redirige si el inicio de sesión fue exitoso
+                    window.location.href = "CheckInOut.php";
+                } else {
+                    // Muestra el mensaje de error si el inicio de sesión falla
+                    document.getElementById("errorMessage").textContent = xhr.responseText;
+                }
+            }
+        };
+        xhr.send("username=" + username + "&password=" + password);
+    }
+</script>
+
+
+
+
+</body>
+</html>
