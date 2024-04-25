@@ -15,9 +15,9 @@ $variable = ($row['count'] > 0) ? 0 : 1; // Si hay al menos una entrada sin Chec
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["checkin"])) {
         // Acción para CheckIn
-        $sql = "INSERT INTO CheckInOut (DNI, EntryDate, CheckIn, Overtime) VALUES ('16335775W', CURDATE(), '08:00:00', 0)";
+        $sql = "INSERT INTO CheckInOut (DNI, CheckIn) VALUES ('16335775W', NOW())";
         if ($conn->query($sql) === TRUE) {
-            header("Location: CheckInSuccess.php?status=checkin"); // Redirigir a una página de éxito para CheckIn
+            header("Location: CheckSuccess.php?status=checkin"); // Redirigir a una página de éxito para CheckIn
             exit(); // Terminar la ejecución del script después de redirigir
         } else {
             echo "Error al registrar CheckIn: " . $conn->error;
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Acción para CheckOut
         $sql = "UPDATE CheckInOut SET CheckOut = NOW() WHERE DNI = '16335775W' AND CheckOut IS NULL";
         if ($conn->query($sql) === TRUE) {
-            header("Location: CheckOutSuccess.php?status=checkout"); // Redirigir a una página de éxito para CheckOut
+            header("Location: CheckSuccess.php?status=checkout"); // Redirigir a una página de éxito para CheckOut
             exit(); // Terminar la ejecución del script después de redirigir
         } else {
             echo "Error al registrar CheckOut: " . $conn->error;
