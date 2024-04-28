@@ -4,8 +4,8 @@ html, body {
 }
 body {
     align-items: center;
-    background: linear-gradient(to bottom, #c6426e, #642b73);
-    /* background: linear-gradient(to bottom, #000, #01d101); */
+    /*background: linear-gradient(to bottom, #c6426e, #642b73);*/
+    background: linear-gradient(to bottom, #000, #01d101);
     display: flex;
     font-family: 'Open Sans', sans;
     justify-content: center;
@@ -72,37 +72,35 @@ body {
     transform: translateZ(-50px);
     z-index: 0;
 }
-
-.card__one-CL .card__img-CL {
-    top: 50px;
-    right: 2px;
+.pixelar{
+    image-rendering: pixelated; /*Escalado nítido para mantener la apariencia pixelada*/
+    image-rendering: -moz-crisp-edges; /*Firefox*/
+    image-rendering: -webkit-crisp-edges; /*WebKit (Chrome, Safari)*/
+    image-rendering: crisp-edges; /*Otros navegadores */
+}
+.card__Volver-CL .card__img-CL {
+    top: 60px;
     height: 60%;
 }
-.card__one-CL .card__bg-CL {
-    background: url('multimedia/stockInfo2Cut.png') center / cover no-repeat;
-}
-
-.card__two-CL .card__img-CL {
-    top: 25px;
-    height: 60%;
-
-        image-rendering: pixelated; /*Escalado nítido para mantener la apariencia pixelada*/
-        image-rendering: -moz-crisp-edges; /*Firefox*/
-        image-rendering: -webkit-crisp-edges; /*WebKit (Chrome, Safari)*/
-        image-rendering: crisp-edges; /*Otros navegadores */
-}
-.card__two-CL .card__bg-CL {
-    background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/62105/3dr_spirited.jpg') center / cover no-repeat;
-}
-
-.card__three-CL .card__img-CL {
-    top: 50px;
-    left: 2px;
-    height: 60%;
-}
-.card__three-CL .card__bg-CL {
+.card__Volver-CL .card__bg-CL {
     background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/62105/3dr_monobg.jpg') center / cover no-repeat;
 }
+
+/*FILAS*/
+       
+.row { /*Nuevas reglas de estilo para las filas */
+    display: flex;
+    justify-content: space-between; /* Ajustar el espaciado entre las tarjetas */
+    margin-top: 30px; /* Espacio entre las filas */
+}
+.row .card-CL {/* Ajustar el ancho de las tarjetas para que quepan dos por fila */
+    width: calc((100% - 60px) / 3); /* Calcular el ancho de las tarjetas */
+    margin-right: 0; /* Eliminar el margen derecho de la última tarjeta en cada fila */
+}
+.row .card-CL:not(:last-child) {/* Ajustar el margen derecho de las tarjetas para que haya espacio entre ellas */
+    margin-right: 20px; /* Espacio entre las tarjetas */
+}
+/*FIN*/
 
 .card__text-CL {
     align-items: center;

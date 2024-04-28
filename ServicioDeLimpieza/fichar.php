@@ -1,1 +1,0 @@
-/var/www/html/Fichar/fichar.php
