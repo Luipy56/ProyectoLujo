@@ -45,6 +45,8 @@
             background: #222;
             border-radius: 10px;
             cursor: pointer;
+            justify-content: center;
+           align-items: center;
         }
         .animatedCard2{
             overflow: hidden;
@@ -95,62 +97,68 @@
             inset:10px;
             background: #222;
             border-radius: 8px;
-
         }
 
+        .uno {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        }
 
+        .dos {
+            margin-bottom: 20px;
+        }
 
-
+        .tress {
+            display: flex;
+            gap: 20px; /* Espacio entre las cartas */
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-		<!--var DNB = 0;-->
-		$('#send0').click(function () {
-	            var numHab = $('#numHabInput').val();
-		    var DNB = 0;
-	            $.ajax({
-	                url: 'DNBstate.php',
-
-	                method: 'POST',
-	                data: { numHab: numHab , DNB: DNB },
-	                success: function (response) {
-	                    console.log(response);
-	                    $('#datoProcesado0').text(response);
-	                },
-	                error: function (xhr, status, error) {
-	                    console.error(xhr.responseText);
-	                }
-	            });
-	        });
-
-		$('#send1').click(function () {
-                    var numHab = $('#numHabInput').val();
-		    var DNB = 1;
-                    $.ajax({
-                        url: 'DNBstate.php',
-
-                        method: 'POST',
-                        data: { numHab: numHab , DNB: DNB },
-                        success: function (response) {
-                            console.log(response);
-                            $('#datoProcesado0').text(response);
-                        },
-                        error: function (xhr, status, error) {
-                            console.error(xhr.responseText);
-                        }
-                    });
+            $('.animatedCard').click(function () {
+                var numHab = $('#numHabInput').val();
+                var DNB = 0;
+                $.ajax({
+                    url: 'DNBstate.php',
+                    method: 'POST',
+                    data: { numHab: numHab , DNB: DNB },
+                    success: function (response) {
+                        console.log(response);
+                        $('#datoProcesado').text(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
                 });
+            });
 
+            $('.animatedCard2').click(function () {
+                var numHab = $('#numHabInput').val();
+                var DNB = 1;
+                $.ajax({
+                    url: 'DNBstate.php',
+                    method: 'POST',
+                    data: { numHab: numHab , DNB: DNB },
+                    success: function (response) {
+                        console.log(response);
+                        $('#datoProcesado').text(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
 
             $('#sendN').click(function () {
                 var room = $('#roomInput').val();
-		var dateCheckIn = $('#dateCheckInInput').val();
+                var dateCheckIn = $('#dateCheckInInput').val();
 
-		if (room.trim() === '') {
-                	room = 'AGAPITO';
-            	}
+                if (room.trim() === '') {
+                    room = 'AGAPITO';
+                }
 
                 $.ajax({
                     url: 'findId.php',
@@ -158,7 +166,7 @@
                     data: { room: room, dateCheckIn: dateCheckIn },
                     success: function (response) {
                         console.log(response);
-                        $('#datoProcesado1').text(response);
+                        $('#datoProcesadoN').text(response);
 
                     },
                     error: function (xhr, status, error) {
@@ -171,28 +179,20 @@
 </head>
 
 <body>
-	<input type="text" id="numHabInput" placeholder="Nº de habitación"><br><br>
-	<br>
-	<br>
-        <button id="send0">Molestar</button>
-	<button id="send1">No molestar</button>
+    <div class="uno">
 
-        <p id="datoProcesado">Esperando información</p>
+        <div class="dos">
+        <input type="text" id="numHabInput" placeholder="Nº de habitación">
+        </div>
 
-    <div class="animatedCard">
-        <span class="Molestar"></span>
+        <div class="tress">
+            <div class="animatedCard">
+                <span class="Molestar"></span>
+            </div>
+            <div class="animatedCard2">
+                <span class="NoMolestar"></span>
+            </div>
+        </div>
     </div>
-    <div class="animatedCard2">
-        <span class="NoMolestar"></span>
-    </div>
-
-
-    <!--	<input type="text" id="roomInput" placeholder="Nº de habitacion"><br><br>
-	<input type="text" id="dateCheckInInput" placeholder="Su check In: 'aaaa-mm-dd'"><br><br>
-	<button id="sendN">Enviar</button>
-
-	<p id="datoProcesadoN">Esperando información</p> -->
-    
 </body>
-
 </html>
