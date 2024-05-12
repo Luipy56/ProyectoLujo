@@ -253,9 +253,7 @@ mysqli_close($conexion);
   <div class="dot2 blackDot"><p>No sé, quizá hay un cadáver</p></div>
 </div>
 
-<?php foreach ($info_dots as $info_dot): ?>
-        <div class="dot" data-color="<?php echo $info_dot['color']; ?>"></div>
-    <?php endforeach; ?>
+
 <script>
 function mostrarAlerta(In, Out, Name, Num, Mail, Nota) {
     if (In !== '' || Out !== '') {
