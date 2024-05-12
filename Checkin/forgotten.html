@@ -18,7 +18,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: url('bg2.jpg');
+            background: url('multimedia/bg2.jpg');
             background-size: cover;
             background-position: center;
         }
