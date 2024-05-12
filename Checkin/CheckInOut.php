@@ -56,27 +56,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>CheckInOut</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            text-align: center;
-            font-size: 175%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('bg2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .wrapper {
+        text-align: center; /* Centra el contenido del div */
+        margin-top: 50px; /* Ajusta el margen superior según tus necesidades */
+        }
+
+        h1 {
+            margin-bottom: 20px; /* Ajusta el margen inferior del h1 según tus necesidades */
+        }
+
+        .button-container {
+            position: relative; /* Agregamos position relative */
+            width: 100px; /* ajusta el tamaño según tus necesidades */
+            height: 100px; /* ajusta el tamaño según tus necesidades */
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            margin: 0 10px; /* ajusta el margen horizontal según tus necesidades */
+        }
+        button {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent; /* quitamos el fondo del botón */
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+<div class="wrapper">
     <?php
     // Mostrar mensaje según el valor de la variable
     if ($variable == 1) {
-        echo "<p>Puedes hacer CheckIn</p>";
+        echo "<h1>Puedes hacer Check-In</h1>";
     } else {
-        echo "<p>Puedes hacer CheckOut</p>";
+        echo "<h1>Puedes hacer Check-Out</h1>";
     }
     ?>
-
-    <form method="post">
-        <button type="submit" name="checkin" <?php if ($variable != 1) echo "disabled"; ?>>CheckIn</button>
-        <button type="submit" name="checkout" <?php if ($variable != 0) echo "disabled"; ?>>CheckOut</button>
+    <form method="post" style="display: flex; justify-content: center;">
+        <div class="button-container" style="background-image: url('<?php echo ($variable == 1) ? 'CheckInVerde.png' : 'CheckInNegro.png'; ?>');">
+            <button type="submit" name="checkin" <?php if ($variable != 1) echo "disabled"; ?>></button>
+            <p>CheckIn</p>
+        </div>
+        <div class="button-container" style="background-image: url('<?php echo ($variable == 0) ? 'CheckOutVerde.png' : 'CheckOutNegro.png'; ?>');">
+            <button type="submit" name="checkout" <?php if ($variable != 0) echo "disabled"; ?>>CheckOut</button>
+            <p>CheckOut</p>
+        </div>
     </form>
+</div>
 </body>
 </html>

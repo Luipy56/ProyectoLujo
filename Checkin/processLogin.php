@@ -21,7 +21,7 @@ $result = mysqli_query($connection, $sql);
 if (mysqli_num_rows($result) == 1) {
         $_SESSION['username'] = $username;
         $_SESSION['password'] = $password;
-        header("Location: https://fichar.lujohotel.es/borrar/CheckInOut.php");
+        header("Location:CheckInOut.php");
         exit();
 } else {
     //Show error message and stay on the same page

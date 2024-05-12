@@ -43,7 +43,7 @@
             <button type="submit" class="btn">Login</button>
         <?php
                 if (isset($_GET['error'])) {
-                    echo "<p style='color: red; padding-top:20px; text-align: center;'>Incorrect username or password</p>";
+                    echo "<p style='color: red; padding-top:20px; text-align: center;'>Contraseña y/o usuario incorrectos</p>";
                 }
         ?>
         </form>
