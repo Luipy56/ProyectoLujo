@@ -314,6 +314,10 @@ mysqli_close($conexion);
   <div class="dot2 blackDot"><p>No sé, quizá hay un cadáver</p></div>
 </div>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8a85159a5188f546e9be5cb9848ab2e77f90d278
 <script>
   /** La siguiente función procesa la Alerta dado los parámetros anteriormente
    * y se estructurará las frases que aparecen en la alerta
