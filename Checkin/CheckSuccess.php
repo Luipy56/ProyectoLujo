@@ -32,6 +32,17 @@
     <div class="wrapper">
 
         <?php
+	session_start(); //iniciar sesión para:
+	//Comprobar que exista, si no reedireccionar
+	if (!isset($_SESSION['username'])){
+		    header("Location: https://fichar.lujohotel.es/?noSession");
+		    exit;
+	//Destruirla
+	}elseif(isset($_SESSION['username'])){
+		session_unset();
+		session_destroy();
+	}
+
         // Obtener el estado del botón desde la URL
         $status = isset($_GET['status']) ? $_GET['status'] : '';
 
@@ -48,6 +59,7 @@
         <div class="<?php echo ($status === 'checkout') ? 'out' : 'in'; ?>">
             <h1><?php echo $message; ?></h1>
         <p style="padding-top:50px"><?php echo ($status === 'checkout') ? "Has realizado correctamente el Check-Out." : (($status === 'checkin') ? "Has realizado correctamente el Check-In." : ""); ?></p>
+	<p style="padding-top:10px; padding-bottom:30px;"><?php echo ($status === 'checkout' or $status === 'checkin') ? "Se ha cerrado su sesión." : "";?></p>
 
         <?php if ($status === ''): ?>
             <p>Si esperabas encontrar otra cosa, contacta con tu administrador informático.</p>

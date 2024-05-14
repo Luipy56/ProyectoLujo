@@ -3,6 +3,17 @@ session_start();
 include('/etc/config/variables.php');
 $conn = mysqli_connect($db_host, $db_user, $db_password, 'plantillaPersonal');
 
+
+//Comprobar si la sesión existe, sino, abandonar página
+if (!isset($_SESSION['username'])) {
+    header("Location: https://fichar.lujohotel.es/?noSession");
+    exit;
+}
+
+
+
+
+
 if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
 }

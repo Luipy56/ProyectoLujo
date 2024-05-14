@@ -12,12 +12,18 @@ if (!$connection) {
 //Get values from the form
 $username = $_POST['username'];
 $password = $_POST['password'];
+$adminPassLogin= $_POST['adminpasslogin'];
+
+if ($adminPassLogin != "@"){
+	header("Location: https://fichar.lujohotel.es/?noAdmin");
+	exit();
+}
 
 //Query to check login
 $sql = "SELECT * FROM Personal WHERE Username='$username' AND Password='$password'";
 $result = mysqli_query($connection, $sql);
 
-//Check if a result was found
+//Check if a result was found (contraseña y usuario correctos)
 if (mysqli_num_rows($result) == 1) {
         $_SESSION['username'] = $username;
         $_SESSION['password'] = $password;
@@ -26,7 +32,7 @@ if (mysqli_num_rows($result) == 1) {
 } else {
     //Show error message and stay on the same page
         //echo "Incorrect username or password";
-        header("Location: login_form.php?error=1");
+        header("Location: https://fichar.lujohotel.es/?error=1");
         exit();
 }
 

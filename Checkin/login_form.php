@@ -22,6 +22,7 @@
             background-size: cover;
             background-position: center;
         }
+	.redp{color: red; padding-top:20px; text-align: center;}
     </style>
 </head>
 <body>
@@ -37,13 +38,19 @@
                 <i class="bx bxs-lock-alt"></i>
             </div>
             <div class="remember-forgot">
-                <!-- <label><input type="checkbox"> Remember me</label> -->
                 <a href="forgotten.html">¿Contraseña olvidada?</a>
+            </div>
+            <div class="input-box">
+                <input type="text" name="adminpasslogin" placeholder="Contraseña de administrador" required>
             </div>
             <button type="submit" class="btn">Login</button>
         <?php
                 if (isset($_GET['error'])) {
-                    echo "<p style='color: red; padding-top:20px; text-align: center;'>Contraseña y/o usuario incorrectos</p>";
+                    echo "<p class='redp'>Contraseña y/o usuario incorrectos</p>";
+                }elseif (isset($_GET['noSession'])){
+			echo "<p class='redp'>Primero inicie sesión</p>";
+		}elseif (isset($_GET['noAdmin'])){
+                        echo "<p class='redp'>Contraseña de administrador incorrecta</p>";
                 }
         ?>
         </form>
