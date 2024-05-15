@@ -228,7 +228,6 @@ if (mysqli_connect_errno()) {
 ?>
 
 <?php
-echo '<h2><a href="https://github.com/Luipy56/ProyectoLujo/tree/main/ServicioDeLimpieza">Enlace al Código en GitHub</a></h2>';
 echo '<h1 style="text-align:center;">Hotel Lujo <br> Servicio de limpieza </h1>';
 echo '<h3 style="text-align:center;">Clicke en los circulos de colores para más información</h3>';
 
@@ -309,15 +308,11 @@ mysqli_close($conexion);
   <div class="dot2 redDot"><p>No molestar</p></div>
   <div class="dot2 greenDot"><p>Sí molestar</p></div>
   <div class="dot2 lightblueDot"><p>Habitación vacía</p></div>
-  <div class="dot2 blueDot"><p> Pide limpieza antes de la noche</p></div><!-- Eliminar -->
+  <!-- <div class="dot2 blueDot"><p> Pide limpieza antes de la noche</p></div> Eliminar -->
   <div class="dot2 yellowDot"><p>¡Ha de limpiarse para mediodía!</p></div>
   <div class="dot2 blackDot"><p>No sé, quizá hay un cadáver</p></div>
 </div>
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 8a85159a5188f546e9be5cb9848ab2e77f90d278
+<?php echo '<h2><a href="https://github.com/Luipy56/ProyectoLujo/tree/main/ServicioDeLimpieza">Enlace al Código en GitHub</a></h2>';?>
 <script>
   /** La siguiente función procesa la Alerta dado los parámetros anteriormente
    * y se estructurará las frases que aparecen en la alerta
