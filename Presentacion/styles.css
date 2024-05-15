@@ -79,7 +79,7 @@ body {
     image-rendering: crisp-edges; /*Otros navegadores */
 }
 .card__Volver-CL .card__img-CL {
-    top: 60px;
+    top: 15%;
     height: 60%;
 }
 .card__Volver-CL .card__bg-CL {
