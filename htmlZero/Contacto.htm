@@ -3,6 +3,7 @@
     
     <title>Corporación Lujo - Contacto</title>
     <link rel="stylesheet" type="text/css" href="cssgeneral.css">
+    <script src="cambiarTitulo.js"></script>
 </head>
 <body>
 
@@ -18,10 +19,10 @@
           <nav id="nav">
             <div class="nav-menu">
               <div class="nav-item" style="margin-right: 5vw;"><img src="./multimedia/LogoNegroVerde.png" alt="empresa informatica Barcelona" style="height: 4.7vw;"></div>
-              <div class="nav-item"><a href="index.htm" title="Empresa informático Barcelona">Inicio</a></div>
-              <div class="nav-item"><a href="NoSe.htm" title="Empresa informática Barcelona">No Sé</a></div>
+              <div class="nav-item"><a href="index.htm?hecho" title="Empresa informático Barcelona">Inicio</a></div>
+              <!-- <div class="nav-item"><a href="NoSe.htm" title="Empresa informática Barcelona">No Sé</a></div> -->
               <div class="nav-item"><a href="Servicios.htm" title="Servicios informatica Barcelona">Servicios</a></div>
-              <div class="nav-item"><a href="https://lujohotel.es/wordpress/" title="Reserva en nuestro hotel" target="_blank">Hotel Lujo</a></div>
+              <div class="nav-item"><a href="https://hotel.lujohotel.es" title="Reserva en nuestro hotel" target="_blank">Hotel Lujo</a></div>
               <div class="nav-item-current"><a href="Contacto.htm" title="Info de Contacto">Contacto</a></div>
             </div>
           </nav>
@@ -34,58 +35,71 @@
       <h1 style="line-height: 7vw;">Información de Contacto</h1>
       <h2>Corporación Lujo</h2>
     </div>
+  <div class="formularioPadre">
+  <div class="formulario">
+    <form action="" method="post">
+      
+      <label for="email">Correo electrónico:</label><br>
+      <input type="email" id="email" name="email" required><br><br>
+    
+      <label for="asunto">Asunto:</label><br>
+      <input type="text" id="asunto" name="asunto" required><br><br>
+    
+      <label for="mensaje">Mensaje:</label><br>
+      <textarea id="mensaje" name="mensaje" rows="10" required></textarea><br><br>
+    
+      <input type="submit" value="Enviar">
+    </form>
+  </div>
+  </div>
   <!-- /Título -->
-    <div style="height: 50vw;"></div>
-    <footer>
-      <div class="footerDiv">
-        <div class="subfooterDiv">
-          <h2>Nosotros</h2>
-          <div class="subsubfooterDiv">
-            Especialistas en servicios informáticos desde 1988 a.C., software, hardware e infraestructura de red para empresas.
-          </div>
+  <footer>
+    <div class="footerDiv">
+      <div class="subfooterDiv">
+        <h2>Nosotros</h2>
+        <div class="subsubfooterDiv">
+          Especialistas en servicios informáticos desde 1988 a.C., software, hardware e infraestructura de red para empresas.
         </div>
-        <div class="subfooterDiv">
-          <h2>Empresa</h2>
-          <div class="subsubfooterDiv">
-              <a href="index.htm">Quienes somos</a>
-              <br>
-              <br>
-              <a href="">Soporte</a>
-              <br>
-              <br>
-              <a href="Contacto.htm">Contacto</a>
-          </div>
+      </div>
+      <div class="subfooterDiv">
+        <h2>Empresa</h2>
+        <div class="subsubfooterDiv">
+            <a href="index.htm">Quienes somos</a>
+            <br>
+            <br>
+            <a href="Contacto.htm">Soporte y contacto</a>
         </div>
-        <div class="subfooterDiv">
-          <h2>Información</h2>
-          <div class="subsubfooterDiv" style="display: flex;">
-            <div style="margin-right: 0.5vw;">
-              <div style="margin-bottom: 0.5vw; font-size: 2.4vw; padding-left: 0.1vw;">📌</div>
-              <div style="margin-bottom: 0.2vw; font-size: 1.4vw; padding-left: 0.8vw;">📞</div>
-              <div style="font-size: 1.5vw;padding-left: 0.8vw;">📬</div>
-            </div>
-            <div>
-            Dirección:
-            <br>
-            Plaza Urquinaona 6, 16A
-            <br>
-            08010 Barcelona
-            <br>
-            <br>
-            <p style="color: aquamarine;">676 20 22 44</p>
-            <br>
-            <p><a href="mailto:esperanzagracia@gmail.com" style="color: aquamarine;">esperanzagracia@gmail.com</a></p>
-            </div>
+      </div>
+      <div class="subfooterDiv">
+        <h2>Información</h2>
+        <div class="subsubfooterDiv" style="display: flex;">
+          <div style="margin-right: 0.5vw;">
+            <div style="margin-bottom: 0.5vw; font-size: 2.4vw; padding-left: 0.1vw;">📌</div>
+            <div style="margin-bottom: 0.2vw; font-size: 1.4vw; padding-left: 0.8vw;">📞</div>
+            <div style="font-size: 1.5vw;padding-left: 0.8vw;">📬</div>
           </div>
-        </div>
-        <div class="subfooterDiv">
-          <h2>Ejemplo</h2>
-          <div class="subsubfooterDiv">
-            NoséQué
+          <div>
+          Dirección:
+          <br>
+          Plaza Urquinaona 6, 16A
+          <br>
+          08010 Barcelona
+          <br>
+          <br>
+          <p style="color: aquamarine;">676 20 22 44</p>
+          <br>
+          <p><a href="mailto:esperanzagracia@gmail.com" style="color: aquamarine;">esperanzagracia@gmail.com</a></p>
           </div>
         </div>
       </div>
+      <div class="subfooterDiv">
+        <h2>Diseño web por</h2>
+        <div class="subsubfooterDiv">
+          Hasta los oocitos embrionarios de HTML: <a href="https://bit.ly/33fAIIS" target="_blank" style="color: aquamarine;">Youtube</a>
+        </div>
+      </div>
+    </div>
 
-    </footer>
+</footer>
   </div></div><!-- /Wrapper -->
 </body></html>

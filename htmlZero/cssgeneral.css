@@ -121,6 +121,16 @@ header {
   width: 10vw;
   height: auto;
 }
+.oscuro .iconoOscuroServicios {
+  margin-left: 6em;
+  margin-right: 6em;
+  text-align: center;
+  font-size: 1vw;
+}
+.oscuro .iconoOscuroServicios img {
+  width: 5em;
+  height: auto;
+}
 .oscuro .tituloOscuro{
   text-align: center;
   font-family: 'ImpactedY', Impact, sans-serif;
@@ -133,8 +143,62 @@ header {
   width: 15em;
   margin-left: 3.9em;
   margin-right: 3.9em;
-  font-family: 'Times New Roman', Courier, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-size: 1.3vw;
+}
+.oscuro .descripcionOscuroServicios {
+  text-align: center;
+  width: 15em;
+  margin-left:  1em;
+  margin-right: 1em;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1vw;
+}
+.servicios{
+  text-align: left;
+  font-family: 'ImpactedY', Impact, sans-serif;
+  font-size: 1.2vw;
+  margin-left: 5em;
+  margin-right: 2em;
+  width: 50vw;
+  color: #00ff00;
+}
+.subServicios{
+  padding-top: 2em;
+}
+.subServicios p{
+  padding-top: 2em;
+  padding-left: 2em ;
+  font-family: 'Times New Roman', Times, serif;
+  width: 60vw;
+}
+.formularioPadre{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+.formulario{
+  text-align: center;
+  font-family: 'ImpactedY', Impact, sans-serif;
+  font-size: 1.2vw;
+  background-color: #04eb04;
+  border: #00ff00;
+  border-radius: 10vw;
+  width: 30vw;
+  color: #000000;
+  padding: 1vw;
+  border: 1vw solid transparent; /* Hacemos el borde transparente */
+  box-shadow: 0 0 0.6vw 0.6vw rgba(4, 235, 4, 0.5);
+}
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 80%; /* Puedes ajustar este valor según tus necesidades */
+  padding: 1vw;
+  margin: 0.5vw 0;
+  box-sizing: border-box; /* Incluye el padding en el ancho total */
+  border-radius: 1vw;
 }
     /* -- Segunda parte Div Oscuro -- */
 .oscuro2 {
@@ -185,7 +249,6 @@ header {
   width: 15em;
   margin-left: 4.6em;
   margin-right: 4.6em;
-  font-family: 'Times New Roman', Courier, monospace;
   font-size: 1.2vw;
 }
 /* -- Div Oscuro -- */
@@ -318,12 +381,13 @@ footer{
   font-family: 'ImpactedY', Impact, sans-serif;
   cursor: pointer;
   padding-top: 1.5vw;
-  padding-bottom: 1.6vw;
+  padding-bottom: 1.2vw;
   font-size: 1.1vw;
   margin-right: 1.5vw;
-  background: url("./multimedia/pin.png") no-repeat center 100%;
-  background-size: 0.48vw;
+  background: url("./multimedia/pin90.png") no-repeat center 100%;
+  background-size: 1.4vw;
 }
+
 .nav-item:last-child {
   margin-right: 0;
 }
