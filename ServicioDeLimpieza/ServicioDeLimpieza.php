@@ -9,6 +9,7 @@
 <html lang="es">
 <head>
 	<title>Servicio de limpieza</title>
+	<meta charset="UTF-8">
 <style>
    .dot2 {
     height: 20px;
