@@ -1,0 +1,11 @@
+.dia{
+    display: flex;
+}
+.hora{
+    height: 10px;
+    width: 10px;
+    border: 1px solid black;
+}
+.espacio{
+    height: 20px;
+}

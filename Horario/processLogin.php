@@ -33,9 +33,8 @@ if ($result) {
 
     // Verificar si el resultado es mayor que cero (es decir, al menos una fila coincide)
     if ($row["count"] > 0) {
-        //tiene el rol de 'administrador'
-	$_SESSION['username'] = $username;
-        $_SESSION['password'] = $password;
+        //tiene el rol de 'Administrador'
+	    $_SESSION['username'] = $username;
         header("Location:horarioAdmin.php");
 	exit();
     }
@@ -47,7 +46,6 @@ if ($result) {
 //Check if a result was found (contraseña y usuario correctos)
 if (mysqli_num_rows($result) == 1) {
         $_SESSION['username'] = $username;
-        $_SESSION['password'] = $password;
         header("Location:horario.php");
         exit();
 } else {
