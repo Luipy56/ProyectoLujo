@@ -1,6 +1,7 @@
 <?php
         session_start();
         include('/etc/config/variables.php');
+	include('/etc/config/cifrar.php');
         $connection=mysqli_connect($db_host,$db_user,$db_password,'plantillaPersonal');
 
 
@@ -19,8 +20,23 @@ if ($adminPassLogin != "@"){
 	exit();
 }
 
+$passCifrada = cifrarContraseña($username,$password,$clave);
+echo $passCifrada;
+//die();
 //Query to check login
-$sql = "SELECT * FROM Personal WHERE Username='$username' AND Password='$password'";
+$sql = "SELECT * FROM Personal WHERE Username='$username' AND Password='$passCifrada'";
+$result = mysqli_query($connection, $sql); //Función
+
+if ($result && mysqli_num_rows($result) > 0) {
+    echo "Inicio de sesión exitoso.";
+} else {
+    // Credenciales incorrectas, redirigir
+    header("Location: https://fichar.lujohotel.es/?error=1");
+    exit();
+}
+
+//Query to check login
+$sql = "SELECT * FROM Personal WHERE Username='$username' AND Password='$passCifrada'";
 $result = mysqli_query($connection, $sql);
 
 //Check if a result was found (contraseña y usuario correctos)

@@ -85,8 +85,12 @@
 
     display: flex; flex-direction: column; align-items: center; justify-content: center;
   }
-  body{ background-color:#f7e6b2;
-  }
+	body{
+            background: url('multimedia/bg2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+	p{color:#fff}
 </style>
 </head>
 <body>
@@ -229,8 +233,8 @@ if (mysqli_connect_errno()) {
 ?>
 
 <?php
-echo '<h1 style="text-align:center;">Hotel Lujo <br> Servicio de limpieza </h1>';
-echo '<h3 style="text-align:center;">Clicke en los circulos de colores para más información</h3>';
+echo '<h1 style="text-align:center;color:#fff;">Hotel Lujo <br> Servicio de limpieza </h1>';
+echo '<h3 style="text-align:center;color:#fff;">Clicke en los circulos de colores para más información</h3>';
 
 //Empieza el código de verdad
 echo '<div class="tablaPuntos Vip"><div class="colspan">';

@@ -62,12 +62,15 @@
 		        <option value="Fiambre">Fiambre</option>
 		        <option value="Recepción">Recepción</option>
 			<option value="Piscina">Piscina</option>
+			<option value="Convencion">Convención</option>
+			<option value="Mantenimiento">Mantenimiento</option>
+			<option value="Seguridad">Seguridad</option>
 		        <option value="Otros">Otros</option>
 		    </select>
        	    </div>
 
 	    <div class="input-box">
-                <input type="password" name="adminpass" placeholder="Contraseña de administrador" required>
+                <input type="password" name="adminpass" placeholder="Contraseña de DEMO" required>
             </div>
 
             <button type="submit" class="btn">Login</button>
@@ -83,6 +86,8 @@
                     echo "<p class='error'>El NIF no está disponible</p>";
                 }elseif (isset($_GET['noAdmin'])){
                     echo "<p class='error'>Contraseña de administrador incorrecta</p>";
+                }elseif (isset($_GET['inyect'])){
+                    echo "<p class='error'>Cuidado con lo que haces</p>";
                 }
             ?>
         </form>

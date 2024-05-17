@@ -12,42 +12,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horario Hotel Lujo</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="stylesHorarios.css">
 </head>
 <body>
-
 <?php
 session_start();
 // Verificar si las variables de sesión están establecidas
 if (isset($_SESSION['username'])) {
       $username = $_SESSION['username'];
-      
-  } else {
 
+  } else {
       header("Location: login_form.php?noSession");
       exit();
   }
+//Verifica si se ha hecho clic en el botón de cerrar sesión
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header("Location: login_form.php");
+    exit;
+}
+
+?>
+    <div class="container">
+        <div class="content">
+            <h1>Bienvenid@ <?php echo $username; ?></h1>
+        </div>
+        <div class="button-container">
+            <form method="post">
+                <button type="submit" name="logout">Cerrar sesión</button>
+            </form>
+        </div>
+    </div>
+<?php
+
 //Sacar DNI (ya que se almacena por DNI en el CheckInOut)
-$sql = "select DNI FROM Personal where Username = 'yondu';";
+$sql = "select DNI FROM Personal where Username = '$username';";
 $result = $conn->query($sql);
-if ($result->rowCount() > 0) {
-      $dni = $result->fetchColumn();
+
+if ($result->num_rows > 0) {
+	$row = $result->fetch_assoc();
+	$dni = $row['DNI'];
   } else {
+	echo "Algo raro ha pasado die";
       die();
   }
 
+//Cuantos días tiene este mes?
+$year = date('Y');
+$month = date('m');
+$daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
 //Preparo $d para mapear un mes entero
-for ($d = 1; $d <= 31; $d++){
+for ($d = 1; $d <= $daysInMonth; $d++){
       //Abro div principal diario
-      echo "<h2>Día $d</h2>";
+      echo "<div class='diaDelPadre'>";
       echo "<div class='dia'>";
-
+      echo "<h2 style='width:70px;margin-right:20px;position:relative;top:0;margin-top: 0;':>Día $d</h2>";
             //Básicamente coge el in y el out y calcula la diferencia redondeandola, si no hay OUT pilla la hora actual.
+	    //Filtramos por el mes actual
             //Además pilla la hora del CheckIn
-            $sql ="SELECT HOUR(CheckIn) AS HoraCheckIn,
-                  ROUND(HOUR(TIMEDIFF(IFNULL(CheckOut, NOW()), CheckIn)) + (MINUTE(TIMEDIFF(IFNULL(CheckOut, NOW()), CheckIn)) / 60)) AS DiferenciaHorasRedondeada
-                  FROM CheckInOut
-                  WHERE DAY(CheckIn) = '$d' AND DNI = '$dni'";
+	$sql = "SELECT HOUR(CheckIn) AS HoraCheckIn,
+	                ROUND(HOUR(TIMEDIFF(IFNULL(CheckOut, NOW()), CheckIn)) + (MINUTE(TIMEDIFF(IFNULL(CheckOut, NOW()), CheckIn)) / 60)) AS DiferenciaHorasRedondeada 
+	        FROM CheckInOut
+	        WHERE DAY(CheckIn) = '$d'
+	            AND MONTH(CheckIn) = '$month'
+	            AND DNI = '$dni'";
+
                   /*Esta consulta selecciona la diferencia de horas entre el momento de CheckIn y el momento de CheckOut en la tabla CheckInOut.
                   Pero, si el valor de CheckOut es nulo (es decir, si el usuario aún no ha realizado el CheckOut),
                   se reemplaza con la fecha y hora actuales utilizando la función NOW().
@@ -56,48 +86,64 @@ for ($d = 1; $d <= 31; $d++){
                   Después, divide los minutos entre 60 para obtener la fracción de hora y los suma a las horas. Finalmente, redondea este valor utilizando ROUND()
                   y lo devuelve como DiferenciaHorasRedondeada.*/
 
+	//Limpiar variables
+	$resultsArray = [];
+	$row = null;
 
-            $result = $conn->query($sql);
-            //Comprobar los resultados y almacenar en array
-            if ($result->rowCount() > 0) {
-                  //Obtener todos los resultados en forma de array asociativo (dickionario)
-                  $resultsArray = $result->fetchAll(PDO::FETCH_ASSOC);
-                  
-                  //Procesar cada fila
-                  foreach ($resultsArray as $row) {
-                      $checkIn = $row['HoraCheckIn'];
-                      $diferenciaHoras = $row['DiferenciaHorasRedondeada'];
-                      
-                  }
-            }
-            //Creamos los divs simulando las horas del día
-            for ($i = 1; $i <= 24; $i++){
-                  foreach ($resultsArray as $row) {
+	$result = $conn->query($sql);
+	//Comprobar los resultados y almacenar en array
+	if ($result->num_rows > 0) {
+		//Obtener todos los resultados en forma de array asociativo (dickionario)
+		$resultsArray = $result->fetch_all(MYSQLI_ASSOC);
+	}
+        for ($h = 1; $h <= 24; $h++){
 
-                        if ($row['HoraCheckIn'] == $i){
-                              
+		//Procesar cada fila
+        	foreach ($resultsArray as $row) {
+			//Definimos la hora del checkin y las horas trabajadas hasta el out
+                	$checkIn = $row['HoraCheckIn'];
+                	$diferenciaHoras = $row['DiferenciaHorasRedondeada'];
+			/*Si usuario no CheckOut Muchas horas poner como máximo hasta las 00:00*/
+			if(($checkIn + $diferenciaHoras) > 24){
+			$diferenciaHoras = 24-$checkIn;
+			}
+			//Si la hora procesada está dentro de las horas trabajada...
+			if($h >= $checkIn && $h <= ($checkIn+$diferenciaHoras)){
+
+				//Dibujar Verde tantas horas trabajadas
+				for($verde = 1; $verde<=$diferenciaHoras; $verde++){
+					//Redondear las esquinas
+					echo "<div class='hora blanco";
+						if ($h == 1) {
+						    echo " redondeoIzq";
+						} elseif ($h == 24) {
+						    echo " redondeoDer";
+						}
+					echo "'>$h:00";
+					$h++;
+					echo "<div class='hora verde'></div>";
+					echo "</div>";
+				}
+				//Respetar las horas pintadas
+
+			}
+
+		}
+		if($h<=24){ /*asegurar que no se imprima un 25º div*/
+		echo "<div class='hora blanco";
+                        if ($h == 1) {
+                            echo " redondeoIzq";
+                        } elseif ($h == 24) {
+                            echo " redondeoDer";
                         }
+                echo "'>$h:00";
+		echo "</div>";
+		}
+        }
 
-                  }
-
-
-
-                  if(
-                        foreach ($resultsArray as $row) {
-                              $row['HoraCheckIn'] == $i;
-                              }
-                  ){
-                        for ($i = 1; $i <= 24; $i++){
-                        echo "<div class='hora'>H$i</div>";
-                        }
-
-                  }else{echo "<div class='hora'>H$i</div>";}
-            }
-      echo "</div>";
-      echo "<div class='espacio'>Espacio</div>";
-
+      echo "</div></div>";
+      echo "<div class='espacio'></div>";
 }
 ?>
-
 </body>
 </html>

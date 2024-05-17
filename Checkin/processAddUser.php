@@ -23,23 +23,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $adminPass = $_POST["adminpass"];
 }
 
-$resultado = cifrarContraseña($usernameEj,$passEj,$clave);
+$passCifrada = cifrarContraseña($username,$password,$clave);
 
-echo $profesto;
+
+$sql = "SELECT Username FROM Personal";
+$result = $conn->query($sql);
+
+$arrayTrabajadores = array();
+
+//Verificar si la consulta devolvió resultados
+if ($result->num_rows > 0) {
+    //Recorrer cada fila del resultado y agregar el nombre de usuario al array
+    while($row = $result->fetch_assoc()) {
+        $arrayTrabajadores[] = $row['Username'];
+    }
+} else {
+    echo "Error al buscar trabajadores.";
+	die();
+}
+
+$sql = "SELECT DNI FROM Personal";
+$result = $conn->query($sql);
+
+$arrayDNIs = array();
+
+//Verificar si la consulta devolvió resultados
+if ($result->num_rows > 0) {
+    //Recorrer cada fila del resultado y agregar el nombre de usuario al array
+    while($row = $result->fetch_assoc()) {
+        $arrayDNIs[] = $row['DNI'];
+    }
+} else {
+    echo "Error al buscar DNIs.";
+        die();
+}
+
 
 if ($password != $rpassword){
         header("Location:addUser.php?passNoRep");
 	exit();
 
-}elseif($username=="yondu"){
+}elseif(in_array($password, $arrayTrabajadores)){
         header("Location:addUser.php?userRep");
         exit();
 
-}elseif($username=="Bernat" OR $username=="bernat"){
+}elseif($username=="Bernat" OR $username=="bernat" OR $name == "Bernat" OR $name == "bernat"){
         header("Location:addUser.php?userBan");
         exit();
 
-}elseif($dni=="yondu"){
+}elseif(in_array($password, $arrayTrabajadores)){
         header("Location:addUser.php?dniRep");
         exit();
 
@@ -47,14 +79,55 @@ if ($password != $rpassword){
         header("Location:addUser.php?noAdmin");
         exit();
 
-}else{
-
-//$sql = ;
-
-
-
-
 }
+
+$sql = "INSERT INTO Personal (DNI, Name, LName, Username, Password, Profesto, Role, EntryTime) VALUES ('$dni', '$name', '$apellido', '$username', '$passCifrada', '$profesto', '$role', '$entrytime')";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Nuevo registro creado exitosamente";
+	header("Location:hechoAddUser.html");
+        exit();
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+	header("Location:addUser.php");
+	exit();
+}
+
+/*
+$sql = "INSERT INTO Personal (DNI, Name, LName, Username, Password, Profesto, Role, EntryTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+// Preparar la declaración
+$stmt = $conn->prepare($sql);
+
+// Verificar si la preparación fue exitosa
+if ($stmt) {
+    // Vincular los parámetros
+    $stmt->bind_param("ssssssss", $dni, $name, $apellido, $username, $passCifrada, $profesto, $role, $entryTime);
+
+    // Ejecutar la declaración
+    if ($stmt->execute()) {
+        echo "Nuevo registro creado exitosamente.";
+        header("Location:hechoAddUser.html")
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
+        header("Location:addUser.php?inyect");
+        exit();
+    }
+
+    // Cerrar la declaración
+    $stmt->close();
+} else {
+    echo "Error en la preparación de la consulta: " . $conn->error;
+        header("Location:addUser.php?inyect");
+        exit();
+}
+*/
+
+
+
+
+
 
 
 

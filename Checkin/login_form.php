@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login Fichar</title>
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -28,7 +28,7 @@
 <body>
     <div class="wrapper">
         <form action="processLogin.php" method="post">
-            <h1>Login</h1>
+            <h1>Login Fichar</h1>
             <div class="input-box">
                 <input type="text" name="username" placeholder="Username" required>
                 <i class="bx bxs-user"></i>
