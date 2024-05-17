@@ -315,7 +315,7 @@ mysqli_close($conexion);
   <div class="dot2 lightblueDot"><p>Habitación vacía</p></div>
   <!-- <div class="dot2 blueDot"><p> Pide limpieza antes de la noche</p></div> Eliminar -->
   <div class="dot2 yellowDot"><p>¡Ha de limpiarse para mediodía!</p></div>
-  <div class="dot2 blackDot"><p>No sé, quizá hay un cadáver</p></div>
+ <!-- <div class="dot2 blackDot"><p>No sé, quizá hay un cadáver</p></div> -->
 </div>
 <?php echo '<h2><a href="https://github.com/Luipy56/ProyectoLujo/tree/main/ServicioDeLimpieza">Enlace al Código en GitHub</a></h2>';?>
 <script>
